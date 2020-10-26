@@ -27,10 +27,10 @@ r = K/(h**2)
 x = np.linspace(a,b,N+2)
 
 # Impresion de las constantes 
-print("-------------------------------")
+print("\n-------------------------------------------------")
 print("El ancho de la malla es: ",h)
 print("La constante r es:       ",r)
-print("-------------------------------")
+print("---------------------------------------------------\n")
 
 
 # Funcion para la creacion de los arreglos
@@ -65,13 +65,16 @@ u[1:-1] = np.linalg.solve(A,b)
 u[0] = Ta
 u[-1] = Tb
 
+# Impresion de los vectores y matrices
 print("\n Matriz del sistema : \n", A)
 print("\n Lado derecho del sistema : \n", b)
-print("\n Vector resultado: \n", u)
+print("\n Vector solucion:")
+for i in range(len(u)):
+    print("El",i,"del vector es: ",u[i])
 
 
 # Graficando las soluciones
-plt.plot(x,u,'-bo')
+plt.plot(x,u,'-ro')
 plt.title("Solucion a la ecuacion de calor")
 plt.xlabel("Distancia [m]")
 plt.ylabel("Temperatura [C]")
