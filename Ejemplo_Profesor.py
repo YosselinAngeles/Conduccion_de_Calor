@@ -67,6 +67,7 @@ f[N-1] -= boundB
 # La solucion sera guardada en el arreglo u, que es de tamanio N+2, pues incluye las fronteras
 u = np.zeros(N+2)
 
+print(len(A),len(f),len(u))
 # Se utiliza un algoritmo del paquete linalg para obtener la solucion del sistema de N x N
 u[1:N+1] = np.linalg.solve(A,f)
 
