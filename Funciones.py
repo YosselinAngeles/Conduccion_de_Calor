@@ -1,40 +1,14 @@
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 
-print()
-print("+----------------------------------------------------+")
-print("|      Solucion de la transferencia de calor         |")
-print("+----------------------------------------------------+")
-
-
-# Datos de entrada
-a = float(input("Ingrese el comienzo de la barra.                a="))
-b = float(input("Ingrese el fin de la barra.                     b="))
-K = float(input("Ingresa la conductividad térmica del material   k="))
-N = int(input("Ingresa el número de nodos que desea            N="))
-Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
-Tb = float(input("Ingrese la temperaruta al final.                Tb="))
-
-# Calculo de constantes necesarias
-h = (b-a)/(N+1)
-r = K/(h**2)
-x = np.linspace(a,b,N+2)
-
-# Impresion de las constantes 
-print("\n-------------------------------------------------")
-print("El ancho de la malla es: ",h)
-print("La constante r es:       ",r)
-print("---------------------------------------------------\n")
-
 # ------------------------------------------------------------
 # ------------------------------------------------------------
-
 # Funcion para la creacion de los arreglos
-def Arreglos(N,Ta,Tb):
+def Vector_aux(N,Ta,Tb):
     """
-
+    Esta funcion genera un vector auxiliar, y se asignan los valores
+    a la frontera.
+    
     Parameters
     ----------
     N : Entero (int)
@@ -47,29 +21,21 @@ def Arreglos(N,Ta,Tb):
     Returns  
     -------
     Variables de salida:
-                - Arreglo A
                 - Arreglo b
-                - Vector T
-
-    """
-    A = np.zeros((N,N))
-    T = np.zeros(N)    
+    """  
     b = np.zeros(N)
     b[0] = -Ta
     b[-1] = -Tb
-    return A, T, b
-
-A, T, b = Arreglos(N,Ta,Tb)
-
+    return b
 
 # -------------------------------------------------
 # -------------------------------------------------
-
 # Llenado de la matriz 
 def creacion_matriz(N):
     """
+    Esta funcion crea una matriz cuadrada de tamaño N y
+    cambia los valores de la diagonal    
     
-
     Parameters
     ----------
     N : Entero (int)
@@ -90,23 +56,14 @@ def creacion_matriz(N):
         A[i,i-1] = 1
     A[N-1,N-2] = 1; A[N-1,N-1] = diagonal
     return A
-
-#Llamando a la función creación de matriz
-A = creacion_matriz(N)
-
-
-
-#Llamando a la función creación de matriz
-A = creacion_matriz(N)
-
 # -------------------------------------------------
 # -------------------------------------------------
-
 # Vector solucion
 def vector_sol(N):
     """
-    
-
+    Esta funcion genera un vector de tamaño N+2 que contendrá 
+    las soluciones y sus condiciones de frontera
+                                                
     Parameters
     ----------
     N : Entera (int)
@@ -120,30 +77,47 @@ def vector_sol(N):
     """
     u = np.zeros(N+2)
     return u
-
-#Lamada de la función vector_sol
-u = vector_sol(N)
-
-
-
-#Lamada de la función vector_sol
-
-u = vector_sol(N)
-
 # --------------------------------------------------
 # --------------------------------------------------
-
 # Solucion del sistema
-def sol_sistema(A,b):
+def sol_sistema(A,b,N):
+    """
+    Esta funcion resuelve la ecuacion matricial y guarda los valores
+    en el vector solucion
+    
+    Parameters
+    ----------
+    A : Real(float)
+        Matriz cuadrada de tamaño N, con la diagonal editada.
+    b : Real(float)
+        Vector auxiliar de tamaño N, con las condiciones en la frontera.
 
-
+    Returns
+    -------
+    u : Real(float)
+        Vector solución del problema.
+    """
+    u = vector_sol(N)
     u[1:-1] = np.linalg.solve(A,b)
     return u
 
 #---------------------------------------------------
 # Graficando las soluciones
 def grafica_solucion(x,u):
-    
+    """
+    Esta función genera las gráficas de la solución del problema.
+    Parameters
+    ----------
+    x : Real(float)
+        Vector que corresponde a las distancias de la barra.
+    u : Real(float)
+        Vector solución del problema.
+
+    Returns
+    -------
+    None.
+
+    """
     plt.plot(x,u,'C3-o')
     plt.title("Solucion a la ecuacion de calor")
     plt.xlabel("Distancia [m]")
@@ -154,6 +128,17 @@ def grafica_solucion(x,u):
 
 
 # ---------------------------------------------------
+# Funcion de escritura de los datos
+def escritura(largo,Ta,Tb,N):
+    f = open("Archivo.txt", "w", encoding="utf8")
+    f.write("--------------------------------------")
+    f.write("ARCHIVO GENERADO CON LAS SOLUCIONES DE LA ECUACION DE CALOR")
+    f.write("--------------------------------------\n")
+    f.write("Longitud de la barra: " + str(largo) + "\n")
+    f.write("Temperatura en los extremos: " + str(Ta) +  " y " + str(Tb) +  "\n")
+    f.write("El numero de nodos es: " +  str(N) + "\n")
+    f.write("Los resultados son los siguentes: \n")
+    f.close()
 
 
 

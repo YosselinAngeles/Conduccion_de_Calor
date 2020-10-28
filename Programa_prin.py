@@ -1,15 +1,46 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from Prueba import *
+import Funciones as fun
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Programa principal 
+print()
+print("+----------------------------------------------------+")
+print("|      Solucion de la transferencia de calor         |")
+print("+----------------------------------------------------+")
 
+
+# Datos de entrada
+a = float(input("Ingrese el comienzo de la barra.                a="))
+b = float(input("Ingrese el fin de la barra.                     b="))
+K = float(input("Ingresa la conductividad térmica del material   k="))
+N = int(input("Ingresa el número de nodos que desea            N="))
+Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
+Tb = float(input("Ingrese la temperaruta al final.                Tb="))
+
+# Calculo de constantes necesarias
+h = (b-a)/(N+1)
+r = K/(h**2)
+x = np.linspace(a,b,N+2)
+largo = b-a
+
+# Impresion de las constantes 
+print("\n-------------------------------------------------")
+print("El ancho de la malla es: ",h)
+print("La constante r es:       ",r)
+print("El largo de la barra es: ",largo)
+print("---------------------------------------------------\n")
+
+# Llamado a funcion para crear arreglos
+b = fun.Vector_aux(N,Ta,Tb)
+
+#Llamando a la función creación de matriz
+A = fun.creacion_matriz(N)
 
 # Llamar a la función solución del sistema
-u = sol_sistema(A, b)
+u = fun.sol_sistema(A, b, N)
 
 # Ingresando las condiciones de frontera
 u[0] = Ta
@@ -23,7 +54,9 @@ print("El vectro solución es:")
 for i in range(len(u)):
     print(u[i])
 
+# Llamada de la función para Gráficar
+grafica = fun.grafica_solucion(x, u)
+plt.savefig("Solucion.png")
 
-#Llamada de la función para Gráficar
-grafica=grafica_solucion(x, u)
-
+# Llamado a la funcion de escritura
+archivo = fun.escritura(largo,Ta,Tb,N)
