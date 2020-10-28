@@ -5,12 +5,7 @@ print()
 print("+----------------------------------------------------+")
 print("|      Solucion de la transferencia de calor         |")
 print("+----------------------------------------------------+")
-print("| Autores: Hernández Terán Oscar                     |")
-print("|          Ángeles Yosselin                          |")
-print("|          García Andrés                             |")
-print("+----------------------------------------------------+")
-print("|                 Datos de entrada                   |")
-print("+----------------------------------------------------+")
+
 
 
 # Datos de entrada
@@ -35,6 +30,22 @@ print("---------------------------------------------------\n")
 
 # Funcion para la creacion de los arreglos
 def Arreglos(N,Ta,Tb):
+    """
+
+    Parameters
+    ----------
+    N : Entero
+        Numero de nodos.
+    Ta : TYPE
+        DESCRIPTION.
+    Tb : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    """
     A = np.zeros((N,N))
     T = np.zeros(N)    
     b = np.zeros(N)
@@ -74,7 +85,7 @@ for i in range(len(u)):
 
 
 # Graficando las soluciones
-plt.plot(x,u,'-ro')
+plt.plot(x,u,'o')
 plt.title("Solucion a la ecuacion de calor")
 plt.xlabel("Distancia [m]")
 plt.ylabel("Temperatura [C]")
