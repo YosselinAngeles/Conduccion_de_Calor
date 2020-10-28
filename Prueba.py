@@ -7,11 +7,7 @@ print()
 print("+----------------------------------------------------+")
 print("|      Solucion de la transferencia de calor         |")
 print("+----------------------------------------------------+")
-<<<<<<< 732325926b47ff0b0285de687fa5ef8223627b5b
 
-
-=======
->>>>>>> Agregar programa principal y programa de modulos
 
 # Datos de entrada
 a = float(input("Ingrese el comienzo de la barra.                a="))
@@ -65,10 +61,7 @@ def Arreglos(N,Ta,Tb):
 
 A, T, b = Arreglos(N,Ta,Tb)
 
-<<<<<<< 732325926b47ff0b0285de687fa5ef8223627b5b
-=======
 
->>>>>>> Agregar programa principal y programa de modulos
 # -------------------------------------------------
 # -------------------------------------------------
 
@@ -97,15 +90,15 @@ def creacion_matriz(N):
         A[i,i-1] = 1
     A[N-1,N-2] = 1; A[N-1,N-1] = diagonal
     return A
-<<<<<<< 732325926b47ff0b0285de687fa5ef8223627b5b
-#Llamando a la función creación de matriz
-A = creacion_matriz(N)
-
-=======
 
 #Llamando a la función creación de matriz
 A = creacion_matriz(N)
->>>>>>> Agregar programa principal y programa de modulos
+
+
+
+#Llamando a la función creación de matriz
+A = creacion_matriz(N)
+
 # -------------------------------------------------
 # -------------------------------------------------
 
@@ -127,69 +120,27 @@ def vector_sol(N):
     """
     u = np.zeros(N+2)
     return u
-<<<<<<< 732325926b47ff0b0285de687fa5ef8223627b5b
+
 #Lamada de la función vector_sol
 u = vector_sol(N)
 
-=======
+
 
 #Lamada de la función vector_sol
 
 u = vector_sol(N)
->>>>>>> Agregar programa principal y programa de modulos
+
 # --------------------------------------------------
 # --------------------------------------------------
 
 # Solucion del sistema
 def sol_sistema(A,b):
-    """
-    
 
-<<<<<<< 732325926b47ff0b0285de687fa5ef8223627b5b
 
-# --------------------------------------------------
-# --------------------------------------------------1
-
-# Ingresando las condiciones de frontera
-u[0] = Ta
-u[-1] = Tb
-=======
-    Parameters
-    ----------
-    A : Reasl float
-        Arreglo matricial (N,N).
-    b : REAL
-        Arreglo.
->>>>>>> Agregar programa principal y programa de modulos
-
-    Returns
-    -------
-    u : Real
-        Solución del sistema.
-
-    """
     u[1:-1] = np.linalg.solve(A,b)
     return u
 
-<<<<<<< 732325926b47ff0b0285de687fa5ef8223627b5b
-# Graficando las soluciones
-plt.plot(x,u,'o')
-plt.title("Solucion a la ecuacion de calor")
-plt.xlabel("Distancia [m]")
-plt.ylabel("Temperatura [C]")
-plt.grid()
-plt.show()
-=======
-
-# --------------------------------------------------
-# --------------------------------------------------
->>>>>>> Agregar programa principal y programa de modulos
-
-
 #---------------------------------------------------
-#---------------------------------------------------
-
-
 # Graficando las soluciones
 def grafica_solucion(x,u):
     
