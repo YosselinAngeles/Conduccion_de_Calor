@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Oct 27 21:13:43 2020
 
-@author: yosselin
-"""
 from Prueba import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,5 +25,5 @@ for i in range(len(u)):
 
 
 #Llamada de la función para Gráficar
-gradica=grafica_solucion(x, u)
+grafica=grafica_solucion(x, u)
 
