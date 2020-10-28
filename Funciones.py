@@ -31,7 +31,7 @@ def Vector_aux(N,Ta,Tb):
 # -------------------------------------------------
 # -------------------------------------------------
 # Llenado de la matriz 
-def creacion_matriz(N):
+def creacion_matriz(N,diagonal):
     """
     Esta funcion crea una matriz cuadrada de tamaño N y
     cambia los valores de la diagonal    
@@ -48,7 +48,7 @@ def creacion_matriz(N):
 
     """
     A = np.zeros((N, N))
-    diagonal=-2
+   
     A[0,0] = diagonal; A[0,1] = 1
     for i in range(1,N-1):
         A[i,i] = diagonal
@@ -80,7 +80,7 @@ def vector_sol(N):
 # --------------------------------------------------
 # --------------------------------------------------
 # Solucion del sistema
-def sol_sistema(A,b,N):
+def sol_sistema(A,f,N):
     """
     Esta funcion resuelve la ecuacion matricial y guarda los valores
     en el vector solucion
@@ -98,7 +98,7 @@ def sol_sistema(A,b,N):
         Vector solución del problema.
     """
     u = vector_sol(N)
-    u[1:-1] = np.linalg.solve(A,b)
+    u[1:-1] = np.linalg.solve(A,f)
     return u
 
 #---------------------------------------------------
