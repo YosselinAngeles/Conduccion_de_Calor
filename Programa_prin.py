@@ -5,7 +5,7 @@ import Funciones as fun
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Programa principal 
+# Programa principal.
 print()
 print("+----------------------------------------------------+")
 print("|      Solucion de la transferencia de calor         |")
@@ -37,20 +37,29 @@ print("---------------------------------------------------\n")
 b = fun.Vector_aux(N,Ta,Tb)
 
 #Llamando a la función creación de matriz
-A = fun.creacion_matriz(N)
-
-# Llamar a la función solución del sistema
-u = fun.sol_sistema(A, b, N)
+A = fun.creacion_matriz(N,-2)
+f = np.zeros(N)             
+f = h*h*np.exp(x[1:N+1])         # Lado derecho
 
 # Ingresando las condiciones de frontera
-u[0] = Ta
-u[-1] = Tb
+f[0] += h*Ta    # Neumman
+f[N-1] -= Tb  # Dirichlet
+A[0,0] = -1; A[0,1] = 1; # Ajuste de la matriz debido a Neumman
+
+# Llamar a la función solución del sistema
+u = fun.sol_sistema(A, f, N)
+
+# Modificando condiciones de frontera
+u[-1] = Tb 
+u[0] = -h*Ta + u[1] # Condicion de frontera de Neumman
+
+
 
 # Impresion de los vectores y matrices
 print("\n Matriz del sistema : \n", A)
-print("\n Lado derecho del sistema : \n", b)
+print("\n Lado derecho del sistema : \n", f)
 print("\n Vector solucion:")
-print("El vectro solución es:")
+print("El vector solución es:")
 for i in range(len(u)):
     print(u[i])
 
