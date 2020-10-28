@@ -34,16 +34,19 @@ def Arreglos(N,Ta,Tb):
 
     Parameters
     ----------
-    N : Entero
+    N : Entero (int)
         Numero de nodos.
-    Ta : TYPE
-        DESCRIPTION.
-    Tb : TYPE
-        DESCRIPTION.
+    Ta : Real (float)
+        Temperatura al inicio.
+    Tb : Real (float)
+        Temperatura al final.
 
-    Returns
+    Returns  
     -------
-    None.
+    Variables de salida:
+                - Arreglo A
+                - Arreglo b
+                - Vector T
 
     """
     A = np.zeros((N,N))
@@ -56,21 +59,70 @@ def Arreglos(N,Ta,Tb):
 # Llamado a la funcion
 A, T, b = Arreglos(N,Ta,Tb)
 
+# -------------------------------------------------
+# -------------------------------------------------
+
 # Llenado de la matriz 
-A = np.zeros((N, N))
-diagonal=-2
-A[0,0] = diagonal; A[0,1] = 1
-for i in range(1,N-1):
-     A[i,i] = diagonal
-     A[i,i+1] = 1
-     A[i,i-1] = 1
-A[N-1,N-2] = 1; A[N-1,N-1] = diagonal
+def creacion_matriz(N):
+    """
+    
+
+    Parameters
+    ----------
+    N : Entero (int)
+        Número de nodos.
+
+    Returns
+    -------
+    A : Real(float)
+        Matriz(N,N).
+
+    """
+    A = np.zeros((N, N))
+    diagonal=-2
+    A[0,0] = diagonal; A[0,1] = 1
+    for i in range(1,N-1):
+        A[i,i] = diagonal
+        A[i,i+1] = 1
+        A[i,i-1] = 1
+    A[N-1,N-2] = 1; A[N-1,N-1] = diagonal
+    return A
+#Llamando a la función creación de matriz
+A = creacion_matriz(N)
+
+# -------------------------------------------------
+# -------------------------------------------------
 
 # Vector solucion
-u = np.zeros(N+2)
+def vector_sol(N):
+    """
+    
+
+    Parameters
+    ----------
+    N : Entera (int)
+        Número de nodos.
+
+    Returns
+    -------
+    u : Real (float)
+        arreglo solución.
+
+    """
+    u = np.zeros(N+2)
+    return u
+#Lamada de la función vector_sol
+u = vector_sol(N)
+
+# --------------------------------------------------
+# --------------------------------------------------
 
 # Solucion del sistema
 u[1:-1] = np.linalg.solve(A,b)
+
+
+# --------------------------------------------------
+# --------------------------------------------------1
 
 # Ingresando las condiciones de frontera
 u[0] = Ta
