@@ -129,15 +129,38 @@ def grafica_solucion(x,u):
 
 # ---------------------------------------------------
 # Funcion de escritura de los datos
-def escritura(largo,Ta,Tb,N):
+def escritura(largo,Ta,Tb,N,u):
+    """
+    
+
+    Parameters
+    ----------
+    largo : Real
+        Longitud de la barra.
+    Ta : Real
+        Temperatura al inicio.
+    Tb : Real
+        Temperatura al final.
+    N : Entero
+        Número de datos.
+    u : Real
+        Arreglo solución.
+
+    Returns
+    -------
+    Archivo tipo txt, condatos generales de la solución.
+
+    """
     f = open("Archivo.txt", "w", encoding="utf8")
-    f.write("--------------------------------------")
+    f.write("-----------------------")
     f.write("ARCHIVO GENERADO CON LAS SOLUCIONES DE LA ECUACION DE CALOR")
-    f.write("--------------------------------------\n")
-    f.write("Longitud de la barra: " + str(largo) + "\n")
-    f.write("Temperatura en los extremos: " + str(Ta) +  " y " + str(Tb) +  "\n")
-    f.write("El numero de nodos es: " +  str(N) + "\n")
-    f.write("Los resultados son los siguentes: \n")
+    f.write("---------------------\n")
+    f.write("Longitud de la barra: " + str(largo) + "\n\n")
+    f.write("Temperatura en los extremos: " + str(Ta) +  " y " + str(Tb) +  "\n\n")
+    f.write("El numero de nodos es: " +  str(N) + "\n\n")
+    f.write("Los resultados son los siguentes: \n\n")
+    np.savetxt(f,u,delimiter=' ',fmt='%f')
+   
     f.close()
 
 

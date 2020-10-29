@@ -59,7 +59,6 @@ u[0] = -h*Ta + u[1] # Condicion de frontera de Neumman
 print("\n Matriz del sistema : \n", A)
 print("\n Lado derecho del sistema : \n", f)
 print("\n Vector solucion:")
-print("El vector solución es:")
 for i in range(len(u)):
     print(u[i])
 
@@ -68,4 +67,4 @@ grafica = fun.grafica_solucion(x, u)
 plt.savefig("Solucion.png")
 
 # Llamado a la funcion de escritura
-archivo = fun.escritura(largo,Ta,Tb,N)
+archivo = fun.escritura(largo,Ta,Tb,N,u)
