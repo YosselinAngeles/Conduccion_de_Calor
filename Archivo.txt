@@ -1,0 +1,16 @@
+-----------------------ARCHIVO GENERADO CON LAS SOLUCIONES DE LA ECUACION DE CALOR---------------------
+Longitud de la barra: 1.0
+
+Temperatura en los extremos: 10.0 y 20.0
+
+El numero de nodos es: 5
+
+Los resultados son los siguentes: 
+
+9.371337
+11.038004
+12.737486
+14.475735
+16.259782
+18.097933
+20.000000
