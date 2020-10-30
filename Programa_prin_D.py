@@ -51,7 +51,7 @@ u[-1] = Tb
 print("\n Matriz del sistema : \n", A)
 print("\n Lado derecho del sistema : \n", b)
 print("\n Vector solucion:")
-print("El vectro solución es:")
+print("El vector solución es:")
 for i in range(len(u)):
     print(u[i])
 
