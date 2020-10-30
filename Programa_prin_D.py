@@ -34,7 +34,8 @@ print("El largo de la barra es: ",largo)
 print("---------------------------------------------------\n")
 
 # Llamado a funcion para crear arreglos
-b = fun.Vector_aux(N,Ta,Tb)
+q = np.ones(N) * 100
+b = fun.Vector_aux(N,Ta,Tb,-1*q)
 
 #Llamando a la función creación de matriz
 A = fun.creacion_matriz(N)

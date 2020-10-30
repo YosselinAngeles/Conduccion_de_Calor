@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 # ------------------------------------------------------------
 # ------------------------------------------------------------
 # Funcion para la creacion de los arreglos
-def Vector_aux(N,Ta,Tb):
+def Vector_aux(N,Ta,Tb,q):
     """
     Esta funcion genera un vector auxiliar, y se asignan los valores
     a la frontera.
@@ -26,7 +26,7 @@ def Vector_aux(N,Ta,Tb):
     b = np.zeros(N)
     b[0] = -Ta
     b[-1] = -Tb
-    return b
+    return b + q
 
 # -------------------------------------------------
 # -------------------------------------------------
