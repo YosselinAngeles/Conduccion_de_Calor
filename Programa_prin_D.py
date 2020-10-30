@@ -19,6 +19,7 @@ K = float(input("Ingresa la conductividad térmica del material   k="))
 N = int(input("Ingresa el número de nodos que desea            N="))
 Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
 Tb = float(input("Ingrese la temperaruta al final.                Tb="))
+s = float(input("Ingrese la fuente o sumidero.                s="))
 
 # Calculo de constantes necesarias
 h = (b-a)/(N+1)
@@ -34,7 +35,7 @@ print("El largo de la barra es: ",largo)
 print("---------------------------------------------------\n")
 
 # Llamado a funcion para crear arreglos
-q = np.ones(N) * 100
+q = np.ones(N) * s
 b = fun.Vector_aux(N,Ta,Tb,-1*q)
 
 #Llamando a la función creación de matriz
