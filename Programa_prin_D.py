@@ -56,8 +56,11 @@ print("El vector solución es:")
 for i in range(len(u)):
     print(u[i])
 
+#Solución analitica para un medio estacionario sin fuente o sumidero q=0
+a1 = fun.sol_analitica(Ta,Tb,x,N,largo)
+print('vector a1',a1)
 # Llamada de la función para Gráficar
-grafica = fun.grafica_solucion(x, u)
+grafica = fun.grafica_solucion(x, u,a1)
 plt.savefig("Solucion.png")
 
 # Llamado a la funcion de escritura

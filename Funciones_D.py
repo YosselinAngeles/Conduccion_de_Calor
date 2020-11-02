@@ -29,6 +29,17 @@ def Vector_aux(N,Ta,Tb,q):
     return b + q
 
 # -------------------------------------------------
+#Solución exacta de problema
+
+def sol_analitica(Ta,Tb,x,N,largo):  
+    a1=[]
+    for i in range(N+2):
+        a1.append(((Tb-Ta)/largo)*x[i]+Ta)
+          #a.append(((Tb-Ta)/largo)*x[i]+Ta)
+    return a1
+
+
+
 # -------------------------------------------------
 # Llenado de la matriz 
 def creacion_matriz(N):
@@ -103,7 +114,7 @@ def sol_sistema(A,b,N):
 
 #---------------------------------------------------
 # Graficando las soluciones
-def grafica_solucion(x,u):
+def grafica_solucion(x,u,a1):
     """
     Esta función genera las gráficas de la solución del problema.
     Parameters
@@ -118,11 +129,13 @@ def grafica_solucion(x,u):
     None.
 
     """
-    plt.plot(x,u,'C3-o')
-    plt.title("Solucion a la ecuacion de calor")
+    plt.plot(x,u,'o',label='Númerica')
+    plt.plot(x,a1,'--',label='Exacta')
+    plt.title("Solucion de la ecuacion de calor")
     plt.xlabel("Distancia [m]")
-    plt.ylabel("Temperatura [C]")
+    plt.ylabel("Temperatura [°C]")
     plt.grid(linestyle='--',linewidth=0.8)
+    plt.legend()
     plt.show()
     return()
 
