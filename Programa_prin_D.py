@@ -19,7 +19,7 @@ K = float(input("Ingresa la conductividad térmica del material   k="))
 N = int(input("Ingresa el número de nodos que desea            N="))
 Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
 Tb = float(input("Ingrese la temperaruta al final.                Tb="))
-s = float(input("Ingrese la fuente o sumidero.                s="))
+s = float(input("Ingrese la fuente o sumidero.                    s="))
 
 # Calculo de constantes necesarias
 h = (b-a)/(N+1)

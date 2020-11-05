@@ -39,6 +39,21 @@ def sol_analitica(Ta,Tb,x,N,largo):
     return a1
 
 
+# -------------------------------------------------
+# Solución exacta a las condiciones de tipo Dirichlet
+
+def Dirichlet(f,x,v):
+    c = ((1 - np.cos(f))/(np.sin(f)))*np.sin(f*x) + b*cos(f*x)
+    return c
+
+
+# -------------------------------------------------
+# Solución exacta a las condiciones de tipo Neumman
+
+def Neumman(x):
+    f = np.exp(x) - x - np.exp(1) - 4
+    return f
+
 
 # -------------------------------------------------
 # Llenado de la matriz 
@@ -129,7 +144,7 @@ def grafica_solucion(x,u,a1):
     None.
 
     """
-    plt.plot(x,u,'o',label='Númerica')
+    plt.plot(x,u,'o-',label='Númerica')
     plt.plot(x,a1,'--',label='Exacta')
     plt.title("Solucion de la ecuacion de calor")
     plt.xlabel("Distancia [m]")
