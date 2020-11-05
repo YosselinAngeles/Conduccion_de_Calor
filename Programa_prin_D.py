@@ -60,6 +60,10 @@ for i in range(len(u)):
 a1 = fun.sol_analitica(Ta,Tb,x,N,largo)
 print('vector a1',a1)
 # Llamada de la función para Gráficar
+"""
+NOTA: AQUI PODEMOS INTENTAR GENERAR LA SOLUCION DEPENDIENDO DEL TIPO DE 
+        CONDICIONES QUE EL USUARIO INGRESE
+        
 if (s==0):
     grafica = fun.grafica_solucion(x, u,a1)
     plt.savefig("Solucion.png")
@@ -67,4 +71,5 @@ else:
     di = np.zeros(N)
     N = fun.Dirichlet()
 # Llamado a la funcion de escritura
+"""
 archivo = fun.escritura(largo,Ta,Tb,N)

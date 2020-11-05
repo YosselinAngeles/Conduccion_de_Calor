@@ -20,8 +20,8 @@ def Vector_aux(N,Ta,Tb,q):
 
     Returns  
     -------
-    Variables de salida:
-                - Arreglo b
+
+    - Arreglo b
     """  
     b = np.zeros(N)
     b[0] = -Ta
@@ -31,6 +31,23 @@ def Vector_aux(N,Ta,Tb,q):
 # -------------------------------------------------
 #Solución exacta de problema
     """
+    Esta función genera la recta  de la solución analítca para el caso 
+    que no se tienen fuentes.
+    
+    Parameters
+    ----------
+    N : Entero (int)
+        Numero de nodos.
+    Ta : Real (float)
+        Temperatura al inicio.
+    Tb : Real (float)
+        Temperatura al final.
+    x :
+    largo : 
+
+    Returns  
+    -------
+    Arreglo a1
     """
 def sol_analitica(Ta,Tb,x,N,largo):  
     a1=[]
@@ -43,6 +60,8 @@ def sol_analitica(Ta,Tb,x,N,largo):
 # -------------------------------------------------
 # Solución exacta a las condiciones de tipo Dirichlet
     """
+    Esta función genera la curva de la solución analítica
+    para el caso de condiciones de tipo Dirichlet.
     """
 def Dirichlet(f,x,b):
     c = ((1 - np.cos(f))/(np.sin(f)))*np.sin(f*x) + b*cos(f*x)
@@ -52,6 +71,8 @@ def Dirichlet(f,x,b):
 # -------------------------------------------------
 # Solución exacta a las condiciones de tipo Neumman
     """
+    Esta función genera la curva de la solución analítica 
+    para el caso de condiciones de tipo Neumman
     """
 def Neumman(x):
     f = np.exp(x) - x - np.exp(1) - 4
