@@ -30,7 +30,8 @@ def Vector_aux(N,Ta,Tb,q):
 
 # -------------------------------------------------
 #Solución exacta de problema
-
+    """
+    """
 def sol_analitica(Ta,Tb,x,N,largo):  
     a1=[]
     for i in range(N+2):
@@ -41,15 +42,17 @@ def sol_analitica(Ta,Tb,x,N,largo):
 
 # -------------------------------------------------
 # Solución exacta a las condiciones de tipo Dirichlet
-
-def Dirichlet(f,x,v):
+    """
+    """
+def Dirichlet(f,x,b):
     c = ((1 - np.cos(f))/(np.sin(f)))*np.sin(f*x) + b*cos(f*x)
     return c
 
 
 # -------------------------------------------------
 # Solución exacta a las condiciones de tipo Neumman
-
+    """
+    """
 def Neumman(x):
     f = np.exp(x) - x - np.exp(1) - 4
     return f
@@ -138,6 +141,8 @@ def grafica_solucion(x,u,a1):
         Vector que corresponde a las distancias de la barra.
     u : Real(float)
         Vector solución del problema.
+    a1: Real(float)
+        Vector solución analítico del problema
 
     Returns
     -------
