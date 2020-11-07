@@ -17,11 +17,10 @@ def Vector_aux(N,Ta,Tb,q):
         Temperatura al inicio.
     Tb : Real (float)
         Temperatura al final.
-
     Returns  
     -------
-
-    - Arreglo b
+    Variables de salida:
+                - Arreglo b
     """  
     b = np.zeros(N)
     b[0] = -Ta
@@ -30,25 +29,7 @@ def Vector_aux(N,Ta,Tb,q):
 
 # -------------------------------------------------
 #Solución exacta de problema
-    """
-    Esta función genera la recta  de la solución analítca para el caso 
-    que no se tienen fuentes.
-    
-    Parameters
-    ----------
-    N : Entero (int)
-        Numero de nodos.
-    Ta : Real (float)
-        Temperatura al inicio.
-    Tb : Real (float)
-        Temperatura al final.
-    x :
-    largo : 
 
-    Returns  
-    -------
-    Arreglo a1
-    """
 def sol_analitica(Ta,Tb,x,N,largo):  
     a1=[]
     for i in range(N+2):
@@ -56,27 +37,6 @@ def sol_analitica(Ta,Tb,x,N,largo):
           #a.append(((Tb-Ta)/largo)*x[i]+Ta)
     return a1
 
-
-# -------------------------------------------------
-# Solución exacta a las condiciones de tipo Dirichlet
-    """
-    Esta función genera la curva de la solución analítica
-    para el caso de condiciones de tipo Dirichlet.
-    """
-def Dirichlet(f,x,b):
-    c = ((1 - np.cos(f))/(np.sin(f)))*np.sin(f*x) + b*cos(f*x)
-    return c
-
-
-# -------------------------------------------------
-# Solución exacta a las condiciones de tipo Neumman
-    """
-    Esta función genera la curva de la solución analítica 
-    para el caso de condiciones de tipo Neumman
-    """
-def Neumman(x):
-    f = np.exp(x) - x - np.exp(1) - 4
-    return f
 
 
 # -------------------------------------------------
@@ -90,12 +50,10 @@ def creacion_matriz(N):
     ----------
     N : Entero (int)
         Número de nodos.
-
     Returns
     -------
     A : Real(float)
         Matriz(N,N).
-
     """
     A = np.zeros((N, N))
     diagonal=-2
@@ -118,12 +76,10 @@ def vector_sol(N):
     ----------
     N : Entera (int)
         Número de nodos.
-
     Returns
     -------
     u : Real (float)
         arreglo solución.
-
     """
     u = np.zeros(N+2)
     return u
@@ -141,7 +97,6 @@ def sol_sistema(A,b,N):
         Matriz cuadrada de tamaño N, con la diagonal editada.
     b : Real(float)
         Vector auxiliar de tamaño N, con las condiciones en la frontera.
-
     Returns
     -------
     u : Real(float)
@@ -153,7 +108,7 @@ def sol_sistema(A,b,N):
 
 #---------------------------------------------------
 # Graficando las soluciones
-def grafica_solucion(x,u,a1):
+def grafica_solucion(x,u,a1,Gtitle,Ntitle,Etitle,filename):
     """
     Esta función genera las gráficas de la solución del problema.
     Parameters
@@ -162,23 +117,29 @@ def grafica_solucion(x,u,a1):
         Vector que corresponde a las distancias de la barra.
     u : Real(float)
         Vector solución del problema.
-    a1: Real(float)
-        Vector solución analítico del problema
-
+    Gtitle: string 
+             Nombre del grafico.
+    Ntitle: string
+                Etiqueta para la solución aproximacimada.
+    Etitle: string
+                Etiqueta para la solución exacta. 
+    filename: string
+                Nombre de la imagen para ser almacenada.
     Returns
     -------
     None.
-
     """
-    plt.plot(x,u,'o-',label='Númerica')
-    plt.plot(x,a1,'--',label='Exacta')
-    plt.title("Solucion de la ecuacion de calor")
+    plt.plot(x,u,'o',label=Ntitle)
+    plt.plot(x,a1,'--',label=Etitle)
+    plt.title(Gtitle)
     plt.xlabel("Distancia [m]")
     plt.ylabel("Temperatura [°C]")
     plt.grid(linestyle='--',linewidth=0.8)
     plt.legend()
+    plt.savefig(filename)
     plt.show()
     return()
+
 
 
 # ---------------------------------------------------
@@ -193,8 +154,3 @@ def escritura(largo,Ta,Tb,N):
     f.write("El numero de nodos es: " +  str(N) + "\n")
     f.write("Los resultados son los siguentes: \n")
     f.close()
-
-
-
-
-
