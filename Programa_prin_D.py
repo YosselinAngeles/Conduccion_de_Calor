@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import Funciones_D as fun
 import numpy as np
@@ -19,7 +17,7 @@ K = float(input("Ingresa la conductividad térmica del material   k="))
 N = int(input("Ingresa el número de nodos que desea            N="))
 Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
 Tb = float(input("Ingrese la temperaruta al final.                Tb="))
-s = float(input("Ingrese la fuente o sumidero.                    s="))
+s = float(input("Ingrese la fuente o sumidero.                s="))
 
 # Calculo de constantes necesarias
 h = (b-a)/(N+1)
@@ -51,25 +49,22 @@ u[-1] = Tb
 # Impresion de los vectores y matrices
 print("\n Matriz del sistema : \n", A)
 print("\n Lado derecho del sistema : \n", b)
-print("\n Vector solucion:")
+print("\n  solucion numérica:")
 print("El vector solución es:")
 for i in range(len(u)):
     print(u[i])
 
 #Solución analitica para un medio estacionario sin fuente o sumidero q=0
 a1 = fun.sol_analitica(Ta,Tb,x,N,largo)
-print('vector a1',a1)
+print('solución analítica a1',a1)
+
+#Calcula el error con respecto a la solucion analitica
+    
+Error = np.sqrt(h) * np.linalg.norm(a1 - u)
+print(" Error = %12.10g " % Error)
+
 # Llamada de la función para Gráficar
-"""
-NOTA: AQUI PODEMOS INTENTAR GENERAR LA SOLUCION DEPENDIENDO DEL TIPO DE 
-        CONDICIONES QUE EL USUARIO INGRESE
-        
-if (s==0):
-    grafica = fun.grafica_solucion(x, u,a1)
-    plt.savefig("Solucion.png")
-else:
-    di = np.zeros(N)
-    N = fun.Dirichlet()
+grafica = fun.grafica_solucion(x, u,a1,"solución de la ecuación de calor","solución numérica", "solución exacta","Solucion.png" )
+
 # Llamado a la funcion de escritura
-"""
 archivo = fun.escritura(largo,Ta,Tb,N)
