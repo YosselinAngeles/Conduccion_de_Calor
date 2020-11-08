@@ -1,5 +1,5 @@
 
-import Funciones_D as fun
+import Funciones as fun
 import numpy as np
 import matplotlib.pyplot as plt
 
