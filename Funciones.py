@@ -80,7 +80,7 @@ def vector_sol(N):
 # --------------------------------------------------
 # --------------------------------------------------
 # Solucion del sistema
-def sol_sistema(A,f,N):
+def sol_sistema(A,b,N):
     """
     Esta funcion resuelve la ecuacion matricial y guarda los valores
     en el vector solucion
@@ -98,7 +98,7 @@ def sol_sistema(A,f,N):
         Vector solución del problema.
     """
     u = vector_sol(N)
-    u[1:-1] = np.linalg.solve(A,f)
+    u[1:-1] = np.linalg.solve(A,b)
     return u
 
 #---------------------------------------------------
