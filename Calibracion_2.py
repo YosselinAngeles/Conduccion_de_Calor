@@ -1,4 +1,4 @@
-import Funciones_D as fun
+import Funciones as fun
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -39,7 +39,7 @@ print("---------------------------------------------------\n")
 #b = fun.Vector_aux(N,Ta,Tb)
 
 #Llamando a la función creación de matriz
-A = fun.creacion_matriz(N,-2)
+A = fun.creacion_matriz(N)
 b = np.zeros(N)             
 b = h*h*np.exp(x[1:N+1])         # Lado derecho
 
