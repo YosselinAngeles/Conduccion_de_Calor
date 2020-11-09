@@ -41,7 +41,7 @@ print("---------------------------------------------------\n")
 #Llamando a la función creación de matriz
 A = fun.creacion_matriz(N)
 b = np.zeros(N)             
-b = h*h*np.exp(x[1:N+1])         # Lado derecho
+b = (1/r)*np.exp(x[1:N+1])         # Lado derecho
 
 # Ingresando las condiciones de frontera
 b[0] += h*Ta    # Neumman
