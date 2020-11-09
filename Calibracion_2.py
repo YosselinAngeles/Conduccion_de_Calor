@@ -44,16 +44,16 @@ b = np.zeros(N)
 b = (1/r)*np.exp(x[1:N+1])         # Lado derecho
 
 # Ingresando las condiciones de frontera
-b[0] += h*Ta    # Neumman
-b[N-1] -= Tb  # Dirichlet
-A[0,0] = -1; A[0,1] = 1; # Ajuste de la matriz debido a Neumman
+b[0] -= Ta    # Neumman
+b[N-1] += h*Tb  # Dirichlet
+A[-1,-1] = -1; A[0,1] = 1; # Ajuste de la matriz debido a Neumman
 
 # Llamar a la función solución del sistema
 u = fun.sol_sistema(A, b, N)
 
 # Modificando condiciones de frontera
-u[-1] = Tb 
-u[0] = -h*Ta + u[1] # Condicion de frontera de Neumman
+u[0] = Ta # Condicion de frontera dirichlet
+u[-1] = -h*Tb + u[-1] # Condicion de frontera de Neumman
 
 
 
