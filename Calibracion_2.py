@@ -53,7 +53,7 @@ u = fun.sol_sistema(A, b, N)
 
 # Modificando condiciones de frontera
 u[0] = Ta # Condicion de frontera dirichlet
-u[-1] = -h*Tb + u[N] # Condicion de frontera de Neumman
+u[-1] = h*Tb + u[N] # Condicion de frontera Neumman
 
 
 
