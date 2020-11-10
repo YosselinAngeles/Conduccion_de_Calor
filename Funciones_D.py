@@ -29,7 +29,26 @@ def Vector_aux(N,Ta,Tb,q):
 
 # -------------------------------------------------
 #Solución exacta de problema
-
+    """
+    Esta función genera un vector que contiene la solución analítica 
+    
+    Parameters
+    ----------
+    Ta: Real (float)
+        Temperatura al inicio
+    Tb: Real (float)
+        Temperatura al final 
+    x: 
+        
+    N: 
+    
+    largo: 
+        
+    Returns
+    -------
+    a1: 
+        
+    """
 def sol_analitica(Ta,Tb,x,N,largo):  
     a1=[]
     for i in range(N+2):
@@ -39,14 +58,20 @@ def sol_analitica(Ta,Tb,x,N,largo):
 
 # -------------------------------------------------
 #Solución exacta de problema
-
+    """
+    Esta función genera un vector que contiene la solución exacta a la
+    ecuación de calor para condiciones de tipo Dirichlet.
+    """
 def sol_analitica_cali1(x,N,f,b):  
     
         
     return ((1-np.cos(f)/np.sin(f))*np.sin(f*x))+b*(np.cos(f*x))
 # ---------------------------------------------------
 #Solución exacta de problema
-
+    """
+    Esta función genera un vector que contiene la solución exacta a la
+    ecuación de calor para condiciones de tipo Neumman.
+    """
 def sol_analitica_cali2(x,N):         
     return np.exp(x) - x - (np.exp(1)) + 4.
 # -------------------------------------------------
@@ -187,6 +212,10 @@ def grafica_solucion(x,u,a1,Gtitle,Ntitle,Etitle,filename):
 
 # ---------------------------------------------------
 # Funcion de escritura de los datos
+    """
+    Esta función genera un archivo .txt que contiene la información 
+    generada por el código.
+    """
 def escritura(largo,Ta,Tb,N):
     f = open("Archivo.txt", "w", encoding="utf8")
     f.write("--------------------------------------")
