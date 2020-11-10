@@ -29,26 +29,7 @@ def Vector_aux(N,Ta,Tb,q):
 
 # -------------------------------------------------
 #Solución exacta de problema
-    """
-    Esta función genera un vector que contiene la solución analítica 
-    
-    Parameters
-    ----------
-    Ta: Real (float)
-        Temperatura al inicio
-    Tb: Real (float)
-        Temperatura al final 
-    x: 
-        
-    N: 
-    
-    largo: 
-        
-    Returns
-    -------
-    a1: 
-        
-    """
+
 def sol_analitica(Ta,Tb,x,N,largo):  
     a1=[]
     for i in range(N+2):
@@ -58,20 +39,17 @@ def sol_analitica(Ta,Tb,x,N,largo):
 
 # -------------------------------------------------
 #Solución exacta de problema
-    """
-    Esta función genera un vector que contiene la solución exacta a la
-    ecuación de calor para condiciones de tipo Dirichlet.
-    """
-def sol_analitica_cali1(x,N,f,b):  
-    
+
+def sol_analitica_cali1(x,N,b,h):  
+    for i in range(N+2):
+        #f=h*(x[i]*np.pi)**2
         
+        f=2.9
+        i=i+1
     return ((1-np.cos(f)/np.sin(f))*np.sin(f*x))+b*(np.cos(f*x))
 # ---------------------------------------------------
 #Solución exacta de problema
-    """
-    Esta función genera un vector que contiene la solución exacta a la
-    ecuación de calor para condiciones de tipo Neumman.
-    """
+
 def sol_analitica_cali2(x,N):         
     return np.exp(x) - x - (np.exp(1)) + 4.
 # -------------------------------------------------
@@ -106,10 +84,40 @@ def creacion_matriz_diagonal(N,diagonal):
     return A
 # -------------------------------------------------
 
+def creacion_matriz_diagonal1(N,diagonal,f0):
+    """
+    Esta funcion crea una matriz cuadrada de tamaño N y
+    cambia los valores de la diagonal, ayudando así a la
+    resolución de la ecuación de Poison 1D por condiciones 
+    de Dirichelet (Calibración 1)
+    
+    Parameters
+    ----------
+    N : Entero (int)
+        Número de nodos.
 
+    Returns
+    -------
+    A : Real(float)
+        Matriz(N,N).
+
+    """
+    A = np.zeros((N, N))
+   
+    A[0,0] = diagonal-f0[0]; A[0,1] = 1
+    for i in range(1,N-1):
+        A[i,i] = diagonal-f0[i]
+        A[i,i+1] = 1
+        A[i,i-1] = 1
+    A[N-1,N-2] = 1; A[N-1,N-1] = diagonal-f0[N-1]
+    return A
+
+
+
+# -------------------------------------------------
 
 # Llenado de la matriz 
-def creacion_matriz(N):
+def creacion_matriz(N,diagonal,x):
     """
     Esta funcion crea una matriz cuadrada de tamaño N y
     cambia los valores de la diagonal    
@@ -123,14 +131,23 @@ def creacion_matriz(N):
     A : Real(float)
         Matriz(N,N).
     """
+    k1=[]
+    k2=[]
+    for i in range(N):
+        k1.append( np.abs(np.sin(4.*np.pi*((x[i+1]+x[i])/2)))) #derecha
+        k2.append( np.abs(np.sin(4.*np.pi*((x[i-1]+x[i])/2)))) #izquierda
+    print("k1 ",k1)
+    print()
+    print("k2",k2, end='\n')
     A = np.zeros((N, N))
-    diagonal=-2
-    A[0,0] = diagonal; A[0,1] = 1
+    
+    A[0,0] = diagonal ; A[0,1] = k1[0]
     for i in range(1,N-1):
         A[i,i] = diagonal
-        A[i,i+1] = 1
-        A[i,i-1] = 1
-    A[N-1,N-2] = 1; A[N-1,N-1] = diagonal
+        A[i,i+1] = k1[i]
+        A[i,i-1] = k2[i]
+        A[N-1,N-2] = k2[i]
+   #A[N,N] = k1[0]
     return A
 # -------------------------------------------------
 # -------------------------------------------------
@@ -207,15 +224,28 @@ def grafica_solucion(x,u,a1,Gtitle,Ntitle,Etitle,filename):
     plt.savefig(filename)
     plt.show()
     return()
+# ---------------------------------------------------
+# Función de lectura
+#def lectura()
+#datos=[]
 
+#with open("ModeloConRuido.dat") as mcr:
+ #   for linea in mcr:
+  #      datos.append(linea.split())
+
+#n=np.shape(datos)
+#datosf=np.zeros((n[0]-2,n[1]),dtype=np.float32)
+
+#for i in range(n[0]-2):
+ #   for j in range(n[1]):
+  #      datosf[i,j]=float(datos[i+1][j])
+
+#for i in range(n[0]-2):
+ #   datosf[i,3]=(float(datos[i][3])+float(datos[i+1][3])+float(datos[i+2][3]))/3.
 
 
 # ---------------------------------------------------
 # Funcion de escritura de los datos
-    """
-    Esta función genera un archivo .txt que contiene la información 
-    generada por el código.
-    """
 def escritura(largo,Ta,Tb,N):
     f = open("Archivo.txt", "w", encoding="utf8")
     f.write("--------------------------------------")
