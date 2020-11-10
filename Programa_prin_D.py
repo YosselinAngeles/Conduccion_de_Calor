@@ -36,7 +36,7 @@ print("---------------------------------------------------\n")
 
 # --------------------- Primeros cálculos ----------------------
 # Llamado a funcion para crear arreglos
-q = np.ones(N) * s * (1/r)
+q = np.ones(N) * s 
 b = fun.Vector_aux(N,Ta,Tb,-1*q)
 
 #Llamando a la función creación de matriz
@@ -65,12 +65,12 @@ a1 = fun.sol_analitica(Ta,Tb,x,N,largo)
 # Segunda derivada de u(x) = -f^2 u(x) con x [0,1]
 A0 = fun.creacion_matriz_diagonal(N,-2) #Sistema matricial para ec. de Poisson 1D
 #f0 = np.zeros(N)   
-f0 = x[1:N+1]**2       # Lado derecho (columana de 1 y 0)
+f0 = -x[1:N+1]**2       # Lado derecho (columana de 1 y 0)
 #f = h*h*np.exp(x[1:N+1])
 #f0 = fun.Vector_aux(N,Ta,Tb,-1*q)
 f0[-1] += 1
 f0[0] -= 1
-u0 = fun.sol_sistema(A,b,N)
+u0 = fun.sol_sistema(A,f0,N)
 
 u0[0] = 1
 u0[-1] = 1
