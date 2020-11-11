@@ -38,6 +38,19 @@ def sol_analitica(Ta,Tb,x,N,largo):
     return a1
 
 # -------------------------------------------------
+#Solución exacta de problema del problema con Fuente o Sumidero
+
+def sol_analitica_F(x, Ta, Tb, s, largo, K,N):
+
+    a1=[]
+    for i in range(N+2):
+        a1.append(((Tb-Ta)/largo + s /(2*K) * (largo - x[i]))*x[i]+Ta)
+          #a.append(((Tb-Ta)/largo)*x[i]+Ta)
+    return a1
+
+
+# -------------------------------------------------
+
 #Solución exacta de problema
 
 def sol_analitica_cali1(x,N,b,h):  
