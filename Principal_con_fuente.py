@@ -54,7 +54,7 @@ u[-1] += Tb
 #Solución analitica para un medio estacionario sin fuente o sumidero q=0
 #a1 = fun.sol_analitica(Ta,Tb,x,N,largo)
 
-a1= fun.temperatura(x, Ta, Tb, s, largo, K, N)
+a1= fun.sol_analitica_F(x, Ta, Tb, s, largo, K, N)
 
 grafica2 = fun.grafica_solucion(x, u, a1,"Solución de la Ecuación de Calor","Solución numérica", "Solución exacta","Solucion.png" )
 
