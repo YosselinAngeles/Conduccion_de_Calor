@@ -34,7 +34,7 @@ print("El largo de la barra es: ",largo)
 print("---------------------------------------------------\n")
 
 # Llamado a funcion para crear arreglos
-q = np.ones(N) * (-s/K)
+q = np.ones(N) * (-s*h**2/K)
 b = fun.Vector_aux(N,Ta,Tb,q)
 
 #Llamando a la función creación de matriz
@@ -52,7 +52,9 @@ u[0] += Ta
 u[-1] += Tb
 
 #Solución analitica para un medio estacionario sin fuente o sumidero q=0
-a1 = fun.sol_analitica(Ta,Tb,x,N,largo)
+#a1 = fun.sol_analitica(Ta,Tb,x,N,largo)
 
-grafica2 = fun.grafica_solucion(x, u,a1,"Solución de la Ecuación de Calor","Solución numérica", "Solución exacta","Solucion.png" )
+a1= fun.temperatura(x, Ta, Tb, s, largo, K, N)
+
+grafica2 = fun.grafica_solucion(x, u, a1,"Solución de la Ecuación de Calor","Solución numérica", "Solución exacta","Solucion.png" )
 
