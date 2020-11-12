@@ -1,9 +1,9 @@
-import Funciones as fun
+
+import Funciones_D as fun
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-# Programa principal.
+# Programa principal 
 print()
 print("+----------------------------------------------------+")
 print("|      Solucion de la transferencia de calor         |")
@@ -19,15 +19,13 @@ Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
 Tb = float(input("Ingrese la temperaruta al final.                Tb="))
 s = float(input("Ingrese la fuente o sumidero.                s="))
 
-def Evalua(x):
-    return np.exp(x) - x - np.exp(1) + 4
-
 # Calculo de constantes necesarias
 h = (b-a)/(N+1)
 r = K/(h**2)
 x = np.linspace(a,b,N+2)
 largo = b-a
-
+#g=len(x)
+#print("Tamaño x",x)
 # Impresion de las constantes 
 print("\n-------------------------------------------------")
 print("El ancho de la malla es: ",h)
@@ -36,47 +34,66 @@ print("El largo de la barra es: ",largo)
 print("---------------------------------------------------\n")
 
 # Llamado a funcion para crear arreglos
-#b = fun.Vector_aux(N,Ta,Tb)
+q = np.ones(N) * s
+b = fun.Vector_aux(N,Ta,Tb,-1*q)
 
 #Llamando a la función creación de matriz
-A = fun.creacion_matriz(N)
-b = np.zeros(N)             
-b = (1/r)*np.exp(x[1:N+1])         # Lado derecho
-
-# Ingresando las condiciones de frontera
-b[0] -= Ta    # Neumman
-b[N-1] += h*Tb  # Dirichlet
-A[-1,-1] = -1; A[0,1] = 1; # Ajuste de la matriz debido a Neumman
+A = fun.creacion_matriz_diagonal(N,-2)
 
 # Llamar a la función solución del sistema
 u = fun.sol_sistema(A, b, N)
 
-# Modificando condiciones de frontera
-u[0] = Ta # Condicion de frontera dirichlet
-u[-1] = h*Tb + u[N] # Condicion de frontera Neumman
+# Ingresando las condiciones de frontera
+
+# ---- Programa 1 -------
+# Condiciones de Dirichlet  con Ta y Tb en las fronteras
+# u[0]=Ta
+# u[n]=Tb
+u[0] = Ta
+u[-1] = Tb
+
+#Solución analitica para un medio estacionario sin fuente o sumidero q=0
+a1 = fun.sol_analitica(Ta,Tb,x,N,largo)
+
+
+# ---- Calibración ----- 
 
 
 
-# Impresion de los vectores y matrices
-print("\n Matriz del sistema : \n", A)
-print("\n Lado derecho del sistema : \n", b)
-print("\n Vector solucion:")
-for i in range(len(u)):
-    print(u[i])
 
-# Calcula el error con respecto a la solucion analitica
+# --- Calibración 2 -----
+# Condiciones de Neuman
+# du/dn = 0
+# u(1) = 3
+A1 = fun.creacion_matriz_diagonal(N,-2) #Siatema matricial para ec. de Poisson 1D
+f = np.zeros(N)   
+f = h*h*np.exp(x[1:N+1])         # Lado derecho (columana de 1 y 0)
 
-Error = np.sqrt(h) * np.linalg.norm(Evalua(x) - u)
-print(" Error = %12.10g " % Error)
+f[0] += h*Ta    # Neumman
+f[N-1] -= Tb
+A1[0,0] = -1; A1[0,1] = 1; # Ajuste de la matriz debido a Neumman
 
-#Solución Analítica
+u1 = fun.sol_sistema(A1,f,N)
 
-ua = Evalua(x)
+u1[0]= -h*Ta + u1[1] # Condicion de frontera de Neumman
+u1[-1] = Tb 
+
+# Solución análitica
+a2=fun.sol_analitica_cali2(x,N)
+
+# Error entre la solución numerica y la exacta
+Error1 = np.sqrt(h) * np.linalg.norm(fun.sol_analitica_cali2(x,N) - u1)
+print(" Error calibración 2 = %12.10g " % Error1)
+
+
 
 # Llamada de la función para Gráficar
-grafica = fun.grafica_solucion(x, u,ua,"Calibración 2, Transferencia de Calor","Solución numérica", "Solución exacta","Solucion.png" )
 
-# Llamada de la función para Gráficar
-#grafica = fun.grafica_solucion(x, ua)
-#plt.savefig("Solucion.png")
 
+grafica1 = fun.grafica_solucion(x,u1,a2,"Calibración 2: Condiciones de Neumman","Solución numérica", "Solución exacta","Solucion_cali2.png" )
+# Llamado a la funcion de escritura
+#Problema 1
+archivo = fun.escritura(largo,Ta,Tb,N)
+#Calibración 1
+
+#Calibración 2
