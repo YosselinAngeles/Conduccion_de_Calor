@@ -60,9 +60,8 @@ def creacion_matriz_diagonal(N,diagonal,h,K):
         A[i,i+1] = (1*(K[i+1]+K[i])/2)*(1/h**2)
         A[i,i-1] = (1*(K[i-1]+K[i])/2)*(1/h**2)
     A[N-1,N-2] = (1*(K[i-1]+K[i])/2)*(1/h**2); A[N-1,N-1] = (diagonal)*(1/h**2)
-    a0=A[0,0]
-    a1= A[N-1,N-1]
-    return a0, a1,A
+    
+    return A
 # --------------------------------------------------
 
 # Solucion del sistema

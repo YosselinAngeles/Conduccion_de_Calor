@@ -39,7 +39,7 @@ r = K/(h**2)
 b = fun.Vector_aux(N,Ta,Tb)
 # ---- Calibración 3 ----
 # Matriz con diferencias finitas
-a0,a1,A = fun.creacion_matriz_diagonal(N,-1,h,K) #Siatema matricial para ec. de Poisson 1D
+A = fun.creacion_matriz_diagonal(N,-1,h,K) #Siatema matricial para ec. de Poisson 1D
 print("\n Matriz del sistema : \n", A)
 
 # Condiciones de Dirichlet
@@ -47,9 +47,10 @@ print("\n Matriz del sistema : \n", A)
 
 f = np.zeros(N)   
       # Lado derecho (columana de 1 y 0)
-
-f[0]= -1*(h*h)-a0
-f[-1] =-1* (h*h)-a1 
+a0=A[0,0]
+a1= A[N-1,N-1]
+f[0]= (h*h)+a0
+f[-1] =(h*h)+a1 
 print("f: ",f)
 
 u1 = fun.sol_sistema(A,f,N)
