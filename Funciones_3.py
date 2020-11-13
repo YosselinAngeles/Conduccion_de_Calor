@@ -1,14 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 12 00:01:22 2020
-
-@author: yosselin
-"""
 import numpy as np
 import matplotlib.pyplot as plt
 
-def Vector_aux(N,Ta,Tb):
+def Vector_aux(N,Ta,Tb,q, K):
     """
     Esta funcion genera un vector auxiliar, y se asignan los valores
     a la frontera.
@@ -27,9 +20,9 @@ def Vector_aux(N,Ta,Tb):
                 - Arreglo b
     """  
     b = np.zeros(N)
-    b[0] = -Ta
-    b[-1] = -Tb
-    return b 
+    b[0] =  -(K[1]+K[0]/2)*Ta
+    b[-1] = -(K[N]+K[N+1]/2)*Tb
+    return b + q
 # -------------------------------------------------
 
 
@@ -54,12 +47,12 @@ def creacion_matriz_diagonal(N,diagonal,h,K):
     """
     A = np.zeros((N, N))
    
-    A[0,0] = diagonal*(1/h**2); A[0,1] = (1)*(1/h**2)
+    A[0,0] = diagonal*((K[1]+K[2]+K[1])/2); A[0,1] = (K[1]+K[2])/2
     for i in range(1,N-1):
-        A[i,i] = (diagonal*(((K[i+1]+K[i])+(K[i-1]+K[i]))/2))*(1/h**2)
-        A[i,i+1] = (1*(K[i+1]+K[i])/2)*(1/h**2)
-        A[i,i-1] = (1*(K[i-1]+K[i])/2)*(1/h**2)
-    A[N-1,N-2] = (1*(K[i-1]+K[i])/2)*(1/h**2); A[N-1,N-1] = (diagonal)*(1/h**2)
+        A[i,i] = (diagonal)*((K[i+1]+K[i]+K[i-1]+K[i])/2)
+        A[i,i+1] = (K[i+1]+K[i])/2
+        A[i,i-1] = (K[i-1]+K[i])/2
+    A[N-1,N-2] = (K[N]+K[N-1])/2; A[N-1,N-1] = diagonal*((K[N]+K[N+1]+K[N]+K[N-1])/2)
     
     return A
 # --------------------------------------------------
