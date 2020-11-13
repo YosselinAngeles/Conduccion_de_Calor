@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 11 22:22:23 2020
-
-@author: yosselin
-"""
 
 import Funciones_3 as fun
 import numpy as np
@@ -16,10 +9,12 @@ import numpy as np
 #N = int(input("Ingresa el número de nodos que desea            N="))
 #Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
 #Tb = float(input("Ingrese la temperaruta al final.                Tb="))
+#s = float(input("Ingrese la fuente o sumidero.                s="))
 
 #----- Parametros de entrada ----
 a=0  #Inicio de la barra
 b=1  #Fin de la barra
+#s= 0
 
 
 N=50 # Numero de nodos (lugares donde quiero saber la temperatura)
@@ -36,7 +31,10 @@ K=[]
 K=np.abs(np.sin(4*np.pi*x[0:N+2]))
 
 r = K/(h**2)
-b = fun.Vector_aux(N,Ta,Tb)
+
+#q = np.ones(N) * (s*h**2)
+#b = fun.Vector_aux(N,Ta,Tb,q, K)
+
 # ---- Calibración 3 ----
 # Matriz con diferencias finitas
 A = fun.creacion_matriz_diagonal(N,-1,h,K) #Siatema matricial para ec. de Poisson 1D
@@ -47,16 +45,16 @@ print("\n Matriz del sistema : \n", A)
 
 f = np.zeros(N)   
       # Lado derecho (columana de 1 y 0)
-a0=A[0,0]
-a1= A[N-1,N-1]
-f[0]= (h*h)+a0
-f[-1] =(h*h)+a1 
+#a0=A[0,0]
+#a1= A[N-1,N-1]
+f[0]= -(K[1]/2)*Ta
+f[-1] =-((K[N]+K[N+1])/2)*Tb
 print("f: ",f)
 
 u1 = fun.sol_sistema(A,f,N)
 
-#u1[0]= -h*0 + u1[1] # Condicion de frontera de Neumman
-#u1[-1] = 3 
+u1[0]= 2 # Condicion de frontera de Neumman
+u1[-1] = 1
 
 
 
