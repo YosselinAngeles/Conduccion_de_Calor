@@ -14,20 +14,7 @@ print('Opciones para la ejecución: \n'
 
 sel = int(input('Escoja una opción.\n'))
 
-if sel == 1:
-    val= fun.Lectura("Datos_Caso1.txt")
-    a = val[0]
-    b = val[1]
-    N = int(val[2])
-    Ta = val[3]
-    Tb = val[4]
-else:    
-    # Datos de entrada
-    a = float(input("Ingrese el comienzo de la barra.                a="))
-    b = float(input("Ingrese el fin de la barra.                     b="))
-    N = int(input("Ingresa el número de nodos que desea            N="))
-    Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
-    Tb = float(input("Ingrese la temperaruta al final.                Tb="))
+a,b,N,Ta,Tb = fun.Ingreso(sel)
 
 # Cálculo de Constantes
 h,x,lar = fun.Constantes(a,b,N)
@@ -37,27 +24,30 @@ print("El largo de la barra es: ",lar)
 print("---------------------------------------------------\n")
 
 # Creación de vector b
-b = fun.Vector_aux(Ta,Tb,N)
+B = fun.Vector_aux(Ta,Tb,N)
 
 # Creación de matriz diagonal
 A = fun.Matriz_Diagonal(N,-2)
 
 # Solucion del sistema
-u = fun.Sol_Sitema(A,b,N,Ta,Tb)
+u = fun.Sol_Sitema(A,B,N,Ta,Tb)
 
 # Solución analítica del problema
-u_exa = fun.Sol_Analitica(Ta,Tb,N,lar)
+u_exa = fun.Sol_Analitica(a,b,Ta,Tb,N)
 
-error = fun.Error(u,u_exa)
+error = fun.Error(u,u_exa,N)
 
 print("\n--------------------------------------------")
-print("El vector b es: ",b)
+print("El vector b es: ",B)
 print("La matriz A es: \n",A)
-print("La solución numérica es: ",u)
-print("La solución analítica es: ",u_exa)
-print("El error en la solución es: ",error)
+print("La solución numérica es: \n",u)
+print("La solución analítica es: \n",u_exa)
+print("El error en la solución es: \n",error)
 print("\n--------------------------------------------\n")
 
-#Graficando la solucion
+# Graficando la solucion
 fun.Graficas(x,u,u_exa)
+
+# Guardando los datos
+fun.Escritura(u,u_exa)
 
