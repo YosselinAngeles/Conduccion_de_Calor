@@ -9,6 +9,13 @@ print("+----------------------------------------------------+")
 print("|      Solucion de la transferencia de calor         |")
 print("+----------------------------------------------------+")
 
+#Datos Prueba
+
+#k = 0.5
+#L = 0.02
+#TA = 100
+#TB = 200
+#q = 1e+6
 
 # Datos de entrada
 a = float(input("Ingrese el comienzo de la barra.                a="))
