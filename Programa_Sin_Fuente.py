@@ -1,6 +1,6 @@
 # PROGRAMA PARA LA RESOLUCIÓN DE LA ECUACIÓN DE CALOR SIN FUENTES O SUMIDEROS
 
-import Funciones_Sin_Fuente as fun
+import Funciones_Final as fun
 
 # Programa principal
 print()
@@ -14,7 +14,7 @@ print('Opciones para la ejecución: \n'
 
 sel = int(input('Escoja una opción.\n'))
 
-a,b,N,Ta,Tb = fun.Ingreso(sel)
+a,b,N,Ta,Tb,k,S = fun.Ingreso(sel)
 
 # Cálculo de Constantes
 h,x,lar = fun.Constantes(a,b,N)
@@ -24,7 +24,7 @@ print("El largo de la barra es: ",lar)
 print("---------------------------------------------------\n")
 
 # Creación de vector b
-B = fun.Vector_aux(Ta,Tb,N)
+B = fun.Vector_aux(Ta,Tb,N,0)
 
 # Creación de matriz diagonal
 A = fun.Matriz_Diagonal(N,-2)

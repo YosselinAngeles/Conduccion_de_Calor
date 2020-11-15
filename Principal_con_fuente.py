@@ -1,67 +1,58 @@
+# PROGRAMA PARA LA RESOLUCIÓN DE LA ECUACIÓN DE CALOR CON FUENTES O SUMIDEROS
 
-import Funciones_D as fun
 import numpy as np
 import matplotlib.pyplot as plt
+import Funciones_Final as fun
 
-# Programa principal 
+# Programa principal
 print()
 print("+----------------------------------------------------+")
 print("|      Solucion de la transferencia de calor         |")
 print("+----------------------------------------------------+")
 
-#Datos Prueba
+print('Opciones para la ejecución: \n'
+	  '1.- Tomar datos de ejemplo de un archivo \n'
+      '2.- Ingresar los datos manualmente.')
 
-#k = 0.5
-#L = 0.02
-#TA = 100
-#TB = 200
-#q = 1e+6
+sel = int(input('Escoja una opción.\n'))
 
-# Datos de entrada
-a = float(input("Ingrese el comienzo de la barra.                a="))
-b = float(input("Ingrese el fin de la barra.                     b="))
-K = float(input("Ingresa la conductividad térmica del material   k="))
-N = int(input("Ingresa el número de nodos que desea            N="))
-Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
-Tb = float(input("Ingrese la temperaruta al final.                Tb="))
-s = float(input("Ingrese la fuente o sumidero.                s="))
+a,b,N,Ta,Tb,k,S = fun.Ingreso(sel)
 
-# Calculo de constantes necesarias
-h = (b-a)/(N+1)
-r = K/(h**2)
-x = np.linspace(a,b,N+2)
-largo = b-a
-#g=len(x)
-#print("Tamaño x",x)
-# Impresion de las constantes 
+# Cálculo de Constantes
+h,x,largo = fun.Constantes(a,b,N)
 print("\n-------------------------------------------------")
 print("El ancho de la malla es: ",h)
-print("La constante r es:       ",r)
 print("El largo de la barra es: ",largo)
 print("---------------------------------------------------\n")
 
-# Llamado a funcion para crear arreglos
-q = np.ones(N) * (-s*h**2/K)
-b = fun.Vector_aux(N,Ta,Tb,q)
+# Vector que contiene las fuentes
+q = np.ones(N) * (-S*h**2/k)
+# Creación de vector b
+B = fun.Vector_aux(Ta,Tb,N,q)
 
-#Llamando a la función creación de matriz
-A = fun.creacion_matriz_diagonal(N,-2)
+# Creación de matriz diagonal
+A = fun.Matriz_Diagonal(N,-2)
 
-# Llamar a la función solución del sistema
-u = fun.sol_sistema(A, b, N)
+# Solucion del sistema
+u = fun.Sol_Sitema(A,B,N,Ta,Tb)
 
-# Ingresando las condiciones de frontera
+# Solución analítica del problema
+u_exa = fun.Sol_Analitica_F(a, b, Ta, Tb, S, k, N)
 
-# ---- Programa 2. Con Fuente o Sumidero -------
-# Condiciones de Dirichlet  con Ta y Tb en las fronteras
+error = fun.Error(u,u_exa,N)
 
-u[0] += Ta
-u[-1] += Tb
+print("\n--------------------------------------------")
+print("El vector b es: ",B)
+print("La matriz A es: \n",A)
+print("La solución numérica es: \n",u)
+print("La solución analítica es: \n",u_exa)
+print("El error en la solución es: \n",error)
+print("\n--------------------------------------------\n")
 
-#Solución analitica para un medio estacionario sin fuente o sumidero q=0
-#a1 = fun.sol_analitica(Ta,Tb,x,N,largo)
+# Graficando la solucion
+fun.Graficas(x,u,u_exa)
 
-a1= fun.sol_analitica_F(x, Ta, Tb, s, largo, K, N)
+# Guardando los datos
+fun.Escritura(u,u_exa)
 
-grafica2 = fun.grafica_solucion(x, u, a1,"Solución de la Ecuación de Calor","Solución numérica", "Solución exacta","Solucion.png" )
 

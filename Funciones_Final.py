@@ -1,5 +1,5 @@
 # PROGRAMA QUE CONTIENE LAS FUNCIONES PARA EL CÁLCULO DE LA SOLUCIÓN
-# DE LA ECUACIÓN DE Calor
+# DE LA ECUACIÓN DE CALOR
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -28,6 +28,11 @@ def Ingreso(sel):
         Temperatura en la frontera del inicio.
     Tb : float
         Temperatura en la frontera del final.
+    S : float
+        Valor de la fuente
+    k : float
+        Valor de la conductividad térmica
+        
 
     """
     if sel == 1:
@@ -37,7 +42,9 @@ def Ingreso(sel):
         N = int(val[2])
         Ta = val[3]
         Tb = val[4]
-        return a,b,N,Ta,Tb
+        k = val[5]
+        S = val[6]
+        return a,b,N,Ta,Tb,k,S
     else:    
         # Datos de entrada
         a = float(input("Ingrese el comienzo de la barra.                a="))
@@ -45,7 +52,9 @@ def Ingreso(sel):
         N = int(input("Ingresa el número de nodos que desea            N="))
         Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
         Tb = float(input("Ingrese la temperaruta al final.                Tb="))
-        return a,b,N,Ta,Tb
+        k = float(input("Ingrese la conductividad térmica.               k="))
+        S = float(input("Ingrese las funetes o sumideros.                S="))
+        return a,b,N,Ta,Tb,k,S
 
 def Constantes(a,b,N):
     """
@@ -75,7 +84,7 @@ def Constantes(a,b,N):
     lar = b-a
     return h,x,lar
 
-def Vector_aux(Ta,Tb,N):
+def Vector_aux(Ta,Tb,N,q):
     """
     Esta función genera un vector el cual se utiliza en la resolución del 
     problema.
@@ -88,7 +97,8 @@ def Vector_aux(Ta,Tb,N):
         Temperatura en la frontera del final.
     N : Integer
         Número de nodos.
-
+    q : float
+        Vector con la información de las fuentes
     Returns
     -------
     b : float
@@ -98,7 +108,7 @@ def Vector_aux(Ta,Tb,N):
     b = np.zeros(N)
     b[0] = -Ta
     b[-1] = -Tb
-    return b
+    return b + q
 
 def Matriz_Diagonal(N,cons):
     """
@@ -221,9 +231,40 @@ def Sol_Analitica(a,b,Ta,Tb,N):
         sol[i] = m*(aux-a) + Ta
     return sol
 
+def Sol_Analitica_F(a, b, Ta, Tb, S, k, N):
+    """
+    a : float
+        Valor al inicio del dominio.
+    b : float
+        Valor al final del dominio.
+    N : Integer
+        Número de nodos
+    Ta : float
+        Temperatura en la frontera del inicio.
+    Tb : float
+        Temperatura en la frontera del final.
+    S : float
+        Valor de la fuente
+    k : float
+        Valor de la conductividad térmica
+        
+    Returns
+    -------
+    sol : float
+        Vector que contine la solución analica del problema
+    """
+    x = np.linspace(a,b,N+2)
+    m = (Tb-Ta)/(b-a)
+    sol = np.zeros(N+2)
+    for i in range(N+2):
+        aux = x[i]
+        sol[i] = (m + (S/(2*k))*((b-a)-aux))*aux + Ta        
+    return sol
+
 def Error(u,u_exa,N):
     """
-    
+    Esta función genera un vector que contiene la diferencia entre los 
+    valores de las soluciones y devuelve la suma de este.    
 
     Parameters
     ----------
@@ -244,6 +285,21 @@ def Error(u,u_exa,N):
     return sum(error)
     
 def Escritura(u,u_exa):
+    """
+    Esta función genera un archivo .txt de dos columnas con los datos de
+    las soluciones numérica y analítica
+    Parameters
+    ----------
+    u : float
+        Vector que contiene la solución numérica del problema
+    u_exa : float
+        Vector que contiene la solución analítica del problema
+
+    Returns
+    -------
+    None.
+    """
+    
     serie1 = ps.Series(u)
     serie2 = ps.Series(u_exa)
     tabla = ps.DataFrame(serie1,columns = ['Solución analítica'])
