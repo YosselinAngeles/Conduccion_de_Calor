@@ -25,7 +25,7 @@ b=1  #Fin de la barra
 K=1#Conductividad
 N=6# Numero de nodos (lugares donde quiero saber la temperatura)
 Ta=0 # Primera condicion de frontera (Temperatura en el primer nodo)
-Tb=1 # Segunda condicion de frontera (Temperatura en el ultimo nodo)
+Tb=3 # Segunda condicion de frontera (Temperatura en el ultimo nodo)
 #----- 
 
 # Calculo de constantes necesarias
@@ -50,8 +50,7 @@ print("---------------------------------------------------\n")
 # du/dn = 0
 # u(1) = 3
 A2 = fun.creacion_matriz_diagonal2(N,-2) #Siatema matricial para ec. de Poisson 1D
-A2[N,N]=1
-A2[N,N-1]=-1
+A2[N,N]=1; A2[N,N-1]=-1  # Ajuste de la matriz debido a Neumman
 
 print("La matriz del sistem es: ", A2)
 
@@ -60,11 +59,11 @@ f = h*h*np.exp(x[1:N+2])         # Lado derecho (columana de 1 y 0)
 
 f[0] -= Ta    # Neumman
 f[N-1] = -h*Tb
-#A1[0,0] = -1; A1[0,1] = 1; # Ajuste de la matriz debido a Neumman
+
 
 u2 = fun.sol_sistema(A2,f,N)
 
-u2[0]= Ta # Condicion de frontera de Neumman
+u2[0]= -h*Ta + u2[1] # Condicion de frontera de Neumman
 u2[-1] = Tb 
 
 print("La solución del sistema es: ", u2)
