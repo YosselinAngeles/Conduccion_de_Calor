@@ -33,7 +33,7 @@ def Vector_aux(N,Ta,Tb):
     return b 
 # -------------------------------------------------
 
-def creacion_matriz_diagonal1(N,diagonal,f0,h):
+def creacion_matriz_diagonal1(N,diagonal,f0,h,r):
     """
     Esta funcion crea una matriz cuadrada de tamaño N y
     cambia los valores de la diagonal, ayudando así a la
@@ -52,7 +52,7 @@ def creacion_matriz_diagonal1(N,diagonal,f0,h):
 
     """
     A = np.zeros((N,N))
-   
+    i=N
     A[0,0] =((diagonal)+((f0)*(h**2))); A[0,1] =1
     for i in range(1,N-1):
         A[i,i] = ((diagonal)+((f0)*(h**2)))
@@ -60,7 +60,7 @@ def creacion_matriz_diagonal1(N,diagonal,f0,h):
         A[i,i-1] = 1
     A[N-1,N-2] =1; A[N-1,N-1] =((diagonal)+((f0)*(h**2)))
     return A
-# ---------------------------------------------------
+#--------------------------------
 
 # Solucion del sistema
 def sol_sistema(A,b,N):
@@ -117,7 +117,7 @@ def sol_analitica_cali1(x,N,b,h):
 
 #---------------------------------------------------
 # Graficando las soluciones
-def grafica_solucion(x,u,Gtitle,Ntitle,Etitle,filename):
+def grafica_solucion(x,u,a,Gtitle,Ntitle,Etitle,filename):
     """
     Esta función genera las gráficas de la solución del problema.
     Parameters
@@ -138,8 +138,8 @@ def grafica_solucion(x,u,Gtitle,Ntitle,Etitle,filename):
     -------
     None.
     """
-    plt.plot(x,u,'o',label=Ntitle)
-    #plt.plot(x,a1,'--',label=Etitle)
+    plt.plot(x,u,'o',color='gray',label=Ntitle)
+    plt.plot(x,a,'--',color='black',label=Etitle)
     plt.title(Gtitle)
     plt.xlabel("Distancia [m]")
     plt.ylabel("Temperatura [°C]")

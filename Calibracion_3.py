@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov 11 22:22:23 2020
+
+@author: yosselin
+"""
 
 import Funciones_3 as fun
 import numpy as np
@@ -9,12 +16,10 @@ import numpy as np
 #N = int(input("Ingresa el número de nodos que desea            N="))
 #Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
 #Tb = float(input("Ingrese la temperaruta al final.                Tb="))
-#s = float(input("Ingrese la fuente o sumidero.                s="))
 
 #----- Parametros de entrada ----
 a=0  #Inicio de la barra
 b=1  #Fin de la barra
-#s= 0
 
 
 N=50 # Numero de nodos (lugares donde quiero saber la temperatura)
@@ -28,35 +33,34 @@ h = (b-a)/(N+1)
 
 x = np.linspace(a,b,N+2)
 K=[]
-K=np.abs(np.sin(4*np.pi*x[0:N+2]))
+K=np.abs(np.sin(4.*np.pi*(x[0:N+2])))
 
-r = K/(h**2)
-
-#q = np.ones(N) * (s*h**2)
-#b = fun.Vector_aux(N,Ta,Tb,q, K)
 
 # ---- Calibración 3 ----
 # Matriz con diferencias finitas
-A = fun.creacion_matriz_diagonal(N,-1,h,K) #Siatema matricial para ec. de Poisson 1D
+A= fun.creacion_matriz_diagonal(N,-1,h,K) #Siatema matricial para ec. de Poisson 1D
 print("\n Matriz del sistema : \n", A)
 
-# Condiciones de Dirichlet
-
-
 f = np.zeros(N)   
-      # Lado derecho (columana de 1 y 0)
-#a0=A[0,0]
-#a1= A[N-1,N-1]
-f[0]= -(K[1]/2)*Ta
-f[-1] =-((K[N]+K[N+1])/2)*Tb
-print("f: ",f)
 
-u1 = fun.sol_sistema(A,f,N)
+for i in range(1,N-1):
+    f[0]=(-1*(K[i-1]+K[i])/2.)
+    f[-1] =(-1*(K[i+1]+K[i])/2.)
 
-u1[0]= 2 # Condicion de frontera de Neumman
-u1[-1] = 1
+print()
+print("columnas",len(A[0]))
+print("filas",len(A))
+u1 =fun.sol_sistema(A,f,N)
+#u=np.zeros(N+2)
+#i=1
+#for i in range(1,N):
+ #   u[i]=u1[i]
 
 
+u1[0]=Ta
+u1[-1]=Tb
+#x1=[]
+#x1=x[1:N+1]
 
 # Error entre la solución numerica y la exacta
 #Error1 = np.sqrt(h) * np.linalg.norm(fun.sol_analitica_cali2(x,N) - u1)
@@ -64,4 +68,4 @@ u1[-1] = 1
 
 #Grafica de la solución exacta y analítica 
 grafica0 = fun.grafica_solucion(x,K,"K(x)","Solución numérica", "Conductividad","Solucion_cali3k.png" )
-grafica1 = fun.grafica_solucion(x,u1,"Calibración 3: Condiciones de Dirichlet","Solución numérica", "Solución Numerica","Solucion_cali3.png" )
+grafica1 = fun.grafica_solucion(x,u1,"Calibración 3: Conductividad constante","Solución numérica", "Solución Numerica","Solucion_cali3.png" )

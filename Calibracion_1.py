@@ -17,12 +17,12 @@ import numpy as np
 #Tb = float(input("Ingrese la temperaruta al final.                Tb="))
 
 #----- Parametros de entrada ----
-a=0  #Inicio de la barra
-b=1  #Fin de la barra
-K=1#Conductividad
-N=30# Numero de nodos (lugares donde quiero saber la temperatura)
-Ta=1 # Primera condicion de frontera (Temperatura en el primer nodo)
-Tb=1 # Segunda condicion de frontera (Temperatura en el ultimo nodo)
+a=0   #Inicio de la barra
+b=1   #Fin de la barra
+K=182 #Conductividad
+N=30  # Numero de nodos (lugares donde quiero saber la temperatura)
+Ta=1  # Primera condicion de frontera (Temperatura en el primer nodo)
+Tb=1  # Segunda condicion de frontera (Temperatura en el ultimo nodo)
 #----- 
 
 # Calculo de constantes necesarias
@@ -30,7 +30,7 @@ h = (b-a)/(N+1)
 r = K/(h**2)
 x = np.linspace(a,b,N+2)
 
-B0 = fun.Vector_aux(N,Ta,Tb)
+B0 = fun.Vector_aux(N,Ta,Tb)*r**2
 
 # ---- Calibración 1 ----
 # Condiciones de Dirichlet
@@ -42,10 +42,10 @@ f0=(np.pi)**2
 print(B0)
 
 # Sistema matricial sumando en la f en la diagonal principal
-A0 = fun.creacion_matriz_diagonal1(N,-2,f0,h) 
+A0 = fun.creacion_matriz_diagonal1(N,-2,f0,h,r)
 print(A0)
 # Solución númerica del sistema
-u0 =fun.sol_sistema(A0,B0,N)
+u0 =fun.sol_sistema(A0,B0,N)*K
 u0[0]=1
 u0[-1]=1
 print('vector solucion',u0)
@@ -55,5 +55,5 @@ b1 = 1
 a0 =fun.sol_analitica_cali1(x,N,b1,h)
 
 #Grafica de la solución exacta y analítica 
-grafica0 = fun.grafica_solucion(x,u0,"Calibración 1: Condiciones de Dirichlet","Solución numérica", "Solución exacta","Solucion_cali1.png" )
-grafica0 = fun.grafica_solucion(x,a0,"Calibración 1: Condiciones de Dirichlet","Solución exacta", "Solución exacta","Solucion_cali1.png" )
+grafica0 = fun.grafica_solucion(x,u0,a0,"Calibración 1: Condiciones de Dirichlet","Solución numérica", "Solución exacta","Solucion_cali1.png" )
+#grafica0 = fun.grafica_solucion(x,a0,"Calibración 1: Condiciones de Dirichlet","Solución exacta", "Solución exacta","Solucion_cali1.png" )
