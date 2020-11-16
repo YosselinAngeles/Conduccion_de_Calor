@@ -19,8 +19,8 @@ import numpy as np
 #----- Parametros de entrada ----
 a=0   #Inicio de la barra
 b=1   #Fin de la barra
-K=182 #Conductividad
-N=30  # Numero de nodos (lugares donde quiero saber la temperatura)
+K=1 #Conductividad
+N=20  # Numero de nodos (lugares donde quiero saber la temperatura)
 Ta=1  # Primera condicion de frontera (Temperatura en el primer nodo)
 Tb=1  # Segunda condicion de frontera (Temperatura en el ultimo nodo)
 #----- 
@@ -30,14 +30,14 @@ h = (b-a)/(N+1)
 r = K/(h**2)
 x = np.linspace(a,b,N+2)
 
-B0 = fun.Vector_aux(N,Ta,Tb)*r**2
+B0 = fun.Vector_aux(N,Ta,Tb)
 
 # ---- Calibración 1 ----
 # Condiciones de Dirichlet
 # Segunda derivada de u(x) = -f^2 u(x) con x [0,1]
 
 #Formación de f
-f0=(np.pi)**2
+f0=np.pi/2
 
 print(B0)
 
@@ -45,7 +45,7 @@ print(B0)
 A0 = fun.creacion_matriz_diagonal1(N,-2,f0,h,r)
 print(A0)
 # Solución númerica del sistema
-u0 =fun.sol_sistema(A0,B0,N)*K
+u0 =fun.sol_sistema(A0,B0,N)
 u0[0]=1
 u0[-1]=1
 print('vector solucion',u0)

@@ -28,8 +28,8 @@ def Vector_aux(N,Ta,Tb):
                 - Arreglo b
     """  
     b = np.zeros(N)
-    b[0] = Ta
-    b[-1] = Tb
+    b[0] = -Ta
+    b[-1] = -Tb
     return b 
 # -------------------------------------------------
 
@@ -53,12 +53,12 @@ def creacion_matriz_diagonal1(N,diagonal,f0,h,r):
     """
     A = np.zeros((N,N))
     i=N
-    A[0,0] =((diagonal)+((f0)*(h**2))); A[0,1] =1
+    A[0,0] =((diagonal)+((f0**2)*(h**2))); A[0,1] =1
     for i in range(1,N-1):
-        A[i,i] = ((diagonal)+((f0)*(h**2)))
+        A[i,i] = ((diagonal)+((f0**2)*(h**2)))
         A[i,i+1] =1
         A[i,i-1] = 1
-    A[N-1,N-2] =1; A[N-1,N-1] =((diagonal)+((f0)*(h**2)))
+    A[N-1,N-2] =1; A[N-1,N-1] =((diagonal)+((f0**2)*(h**2)))
     return A
 #--------------------------------
 
@@ -111,7 +111,7 @@ def vector_sol(N):
 
 def sol_analitica_cali1(x,N,b,h):  
 
-    f=np.pi
+    f=np.pi/2
       
     return ((1-np.cos(f)/np.sin(f))*np.sin(f*x))+b*(np.cos(f*x))
 
