@@ -1,59 +1,55 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Nov 10 21:54:01 2020
-
-@author: yosselin
-"""
-import Funciones_1 as fun
+import Funciones_Final as fun
 import numpy as np
 
-# Datos de entrada
-#a = float(input("Ingrese el comienzo de la barra.                a="))
-#b = float(input("Ingrese el fin de la barra.                     b="))
-#K = float(input("Ingresa la conductividad térmica del material   k="))
-#N = int(input("Ingresa el número de nodos que desea            N="))
-#Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
-#Tb = float(input("Ingrese la temperaruta al final.                Tb="))
+# Programa principal
+print()
+print("+----------------------------------------------------+")
+print("|      Solucion de la transferencia de calor         |")
+print("+----------------------------------------------------+")
 
-#----- Parametros de entrada ----
-a=0   #Inicio de la barra
-b=1   #Fin de la barra
-K=1 #Conductividad
-N=20  # Numero de nodos (lugares donde quiero saber la temperatura)
-Ta=1  # Primera condicion de frontera (Temperatura en el primer nodo)
-Tb=1  # Segunda condicion de frontera (Temperatura en el ultimo nodo)
-#----- 
+print('Opciones para la ejecución: \n'
+	  '1.- Tomar datos de ejemplo de un archivo \n'
+      '2.- Ingresar los datos manualmente.')
 
-# Calculo de constantes necesarias
-h = (b-a)/(N+1)
-r = K/(h**2)
-x = np.linspace(a,b,N+2)
+sel = int(input('Escoja una opción.\n'))
 
-B0 = fun.Vector_aux(N,Ta,Tb)
+a,b,N,Ta,Tb,k,S,f = fun.Ingreso(sel)
 
-# ---- Calibración 1 ----
-# Condiciones de Dirichlet
-# Segunda derivada de u(x) = -f^2 u(x) con x [0,1]
+# Cálculo de Constantes
+h,x,lar = fun.Constantes(a,b,N)
+print("\n-------------------------------------------------")
+print("El ancho de la malla es: ",h)
+print("El largo de la barra es: ",lar)
+print("---------------------------------------------------\n")
 
-#Formación de f
-f0=np.pi/2
+# Creación de vector b
+B = fun.Vector_aux(Ta,Tb,N,0)
 
-print(B0)
+# Creación de matriz diagonal
+f0 = np.pi/2
+r = k/(h**2)
+A = fun.Matriz_Diagonal1(N,-2,f0,h,r)
 
-# Sistema matricial sumando en la f en la diagonal principal
-A0 = fun.creacion_matriz_diagonal1(N,-2,f0,h,r)
-print(A0)
-# Solución númerica del sistema
-u0 =fun.sol_sistema(A0,B0,N)
-u0[0]=1
-u0[-1]=1
-print('vector solucion',u0)
+# Solucion del sistema
+u = fun.Sol_Sitema(A,B,N,Ta,Tb)
 
-# Solución analítica
+# Solución analítica del problema
 b1 = 1
-a0 =fun.sol_analitica_cali1(x,N,b1,h)
+u_exa =fun.Sol_Analitica_Cali1(x,N,b1,h)
 
-#Grafica de la solución exacta y analítica 
-grafica0 = fun.grafica_solucion(x,u0,a0,"Calibración 1: Condiciones de Dirichlet","Solución numérica", "Solución exacta","Solucion_cali1.png" )
-#grafica0 = fun.grafica_solucion(x,a0,"Calibración 1: Condiciones de Dirichlet","Solución exacta", "Solución exacta","Solucion_cali1.png" )
+error = fun.Error(u,u_exa,N)
+
+print("\n--------------------------------------------")
+print("El vector b es: ",B)
+print("La matriz A es: \n",A)
+print("La solución numérica es: \n",u)
+print("La solución analítica es: \n",u_exa)
+print("El error en la solución es: \n",error)
+print("\n--------------------------------------------\n")
+
+# Graficando la solucion
+fun.Graficas(x,u,u_exa)
+
+# Guardando los datos
+fun.Escritura(u,u_exa)
+

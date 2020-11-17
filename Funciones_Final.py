@@ -171,16 +171,32 @@ def Matriz_Diagonal(N,cons):
     A[N-1,N-2] = 1; A[N-1,N-1] = cons
     return A
 
-def Matriz_Diagonal1(N,cons,f0,h):
+def Matriz_Diagonal1(N,diagonal,f0,h,r):
+    """
+    Esta funcion crea una matriz cuadrada de tamaño N y
+    cambia los valores de la diagonal, ayudando así a la
+    resolución de la ecuación de Poison 1D por condiciones 
+    de Dirichelet (Calibración 1)
+    
+    Parameters
+    ----------
+    N : Entero (int)
+        Número de nodos.
 
+    Returns
+    -------
+    A : Real(float)
+        Matriz(N,N).
+
+    """
     A = np.zeros((N,N))
-    aux = -cons + ((f0)*(h**2))
-    A[0,0] = aux; A[0,1] =1
+    i=N
+    A[0,0] =((diagonal)+((f0**2)*(h**2))); A[0,1] =1
     for i in range(1,N-1):
-        A[i,i] = aux
+        A[i,i] = ((diagonal)+((f0**2)*(h**2)))
         A[i,i+1] =1
         A[i,i-1] = 1
-    A[N-1,N-2] =1; A[N-1,N-1] =aux
+    A[N-1,N-2] =1; A[N-1,N-1] =((diagonal)+((f0**2)*(h**2)))
     return A
 
 def Matriz_Neumman(N,cons):
@@ -334,21 +350,16 @@ def Sol_Analitica_F(a, b, Ta, Tb, S, k, N):
         sol[i] = (m + (S/(2*k))*((b-a)-aux))*aux + Ta        
     return sol
 
-
-def Sol_Analitica_Cali1(N,f,a,b,Ta,Tb):  
-    
-    x = np.linspace(a,b,N+2)
-    sol = np.zeros(N+2)
-    aux = np.zeros(N)
-    for i in range(1,N+1):
-        aux2 = x[i]
-        aux[i-1] = ((1-np.cos(f))/(np.sin(f)))*np.sin(f*aux2) + np.cos(f*aux2)
-        print(aux[i-1])
-    sol[1:-1] = aux 
-    sol[0] = Ta
-    sol[-1] = Tb
-    return sol
      
+def Sol_Analitica_Cali1(x,N,b,h):  
+    """
+    Esta función genera la solución analítica para la calibración
+    tipo 1.
+    """
+
+    f=np.pi/2
+      
+    return ((1-np.cos(f)/np.sin(f))*np.sin(f*x))+b*(np.cos(f*x))
        
 def Sol_Analitica_Neumman(x,Ta,Tb):
     """
@@ -358,6 +369,10 @@ def Sol_Analitica_Neumman(x,Ta,Tb):
     ----------
     x : TYPE
         DESCRIPTION.
+    Ta : float
+        Temperatura en la frontera del inicio.
+    Tb : float
+        Temperatura en la frontera del final.
 
     Returns
     -------
