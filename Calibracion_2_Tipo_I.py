@@ -1,7 +1,7 @@
 
 import Funciones_2_Tipo_I as fun
 import numpy as np
-import matplotlib.pyplot as plt
+
 
 # Programa principal 
 print()
@@ -23,7 +23,8 @@ print("+----------------------------------------------------+")
 a=0  #Inicio de la barra
 b=1  #Fin de la barra
 K=1#Conductividad
-N=6# Numero de nodos (lugares donde quiero saber la temperatura)
+N=20
+# Numero de nodos (lugares donde quiero saber la temperatura)
 Ta=0 # Primera condicion de frontera (Temperatura en el primer nodo)
 Tb=3 # Segunda condicion de frontera (Temperatura en el ultimo nodo)
 #----- 
@@ -50,21 +51,27 @@ print("---------------------------------------------------\n")
 # du/dn = 0
 # u(1) = 3
 A2 = fun.creacion_matriz_diagonal2(N,-2) #Siatema matricial para ec. de Poisson 1D
-A2[N,N]=1; A2[N,N-1]=-1  # Ajuste de la matriz debido a Neumman
+A2[0,0]=1; A2[0,1]=-1  # Ajuste de la matriz debido a Neumma
+g=len(A2)
+l=len(A2[0])
+print("filas",g)
+print("columnas",l)
 
-print("La matriz del sistem es: ", A2)
+
 
 f = np.zeros(N+1)   
 f = h*h*np.exp(x[1:N+2])         # Lado derecho (columana de 1 y 0)
 
-f[0] -= Ta    # Neumman
-f[N-1] = -h*Tb
+f[0] += h*0   # Neumman
+f[N] -= 3
 
-
+print("La matriz del sistem es: ", f)
 u2 = fun.sol_sistema(A2,f,N)
 
-u2[0]= -h*Ta + u2[1] # Condicion de frontera de Neumman
-u2[-1] = Tb 
+C=len(x)
+print("tamaño de u",C)
+u2[0] = -h*0 + u2[1]# Condicion de frontera de Neumman
+u2[N+2] = 3
 
 print("La solución del sistema es: ", u2)
 

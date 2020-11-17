@@ -105,7 +105,7 @@ def creacion_matriz_diagonal2(N,diagonal):
         A[i,i] = diagonal
         A[i,i+1] = 1
         A[i,i-1] = 1
-    A[N-1,N-2] = 1; A[N-1,N-1] = diagonal; 
+    A[N,N-1] = 1; A[N,N] = diagonal; 
     
     return A
 # -------------------------------------------------
