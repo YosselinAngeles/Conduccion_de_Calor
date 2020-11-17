@@ -89,7 +89,7 @@ print('Opciones para la ejecución: \n'
 
 sel = int(input('Escoja una opción.\n'))
 
-a,b,N,Ta,Tb,k,S,f = fun.Ingreso(sel)
+a,b,N,Ta,Tb,k,S,f = fun.Ingreso(sel,"Datos_Calibracion3.txt")
 
 # Cálculo de Constantes
 h,x,lar = fun.Constantes(a,b,N)
