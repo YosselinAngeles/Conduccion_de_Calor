@@ -62,16 +62,16 @@ print("columnas",l)
 f = np.zeros(N+1)   
 f = h*h*np.exp(x[1:N+2])         # Lado derecho (columana de 1 y 0)
 
-f[0] += h*0   # Neumman
-f[N] -= 3
+f[0] += h*Ta   # Neumman
+f[N] -= Tb
 
 print("La matriz del sistem es: ", f)
 u2 = fun.sol_sistema(A2,f,N)
 
 C=len(x)
 print("tamaño de u",C)
-u2[0] = -h*0 + u2[1]# Condicion de frontera de Neumman
-u2[N+2] = 3
+u2[0] = -h*Ta + u2[1]# Condicion de frontera de Neumman
+u2[N+2] = Tb
 
 print("La solución del sistema es: ", u2)
 
