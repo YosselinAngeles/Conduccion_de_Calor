@@ -112,6 +112,44 @@ def Vector_aux(Ta,Tb,N,q):
     b[-1] = -Tb
     return b + q
 
+def vector_sol(N):
+    """
+    Esta funcion genera un vector de tamaño N+2 que contendrá 
+    las soluciones y sus condiciones de frontera
+                                                
+    Parameters
+    ----------
+    N : Entera (int)
+        Número de nodos.
+    Returns
+    -------
+    u : Real (float)
+        arreglo solución.
+    """
+    u = np.zeros(N+3)
+    return u
+
+def sol_sistema(A,b,N):
+    """
+    Esta funcion resuelve la ecuacion matricial y guarda los valores
+    en el vector solucion
+    
+    Parameters
+    ----------
+    A : Real(float)
+        Matriz cuadrada de tamaño N, con la diagonal editada.
+    b : Real(float)
+        Vector auxiliar de tamaño N, con las condiciones en la frontera.
+    Returns
+    -------
+    u : Real(float)
+        Vector solución del problema.
+    """
+    u = vector_sol(N)
+    u[1:-1] = np.linalg.solve(A,b)
+    return u
+
+
 def Vector_aux_Neumman(Ta,Tb,N,f,k,a,b):
     """
     Esta función genera un vector el cual se utiliza en la resolución del 
@@ -198,6 +236,36 @@ def Matriz_Diagonal1(N,diagonal,f0,h,r):
         A[i,i-1] = 1
     A[N-1,N-2] =1; A[N-1,N-1] =((diagonal)+((f0**2)*(h**2)))
     return A
+
+def Matriz_Diagonal2(N,diagonal):
+    """
+    Esta funcion crea una matriz cuadrada de tamaño N y
+    cambia los valores de la diagonal, ayudando así a la
+    resolución de la ecuación de Poison 1D por condiciones 
+    de Dirichelet (Calibración 1)
+    
+    Parameters
+    ----------
+    N : Entero (int)
+        Número de nodos.
+
+    Returns
+    -------
+    A : Real(float)
+        Matriz(N,N).
+
+    """
+    A = np.zeros((N+1, N+1))
+    
+    A[0,0] = diagonal; A[0,1] = 1
+    for i in range(1,N):
+        A[i,i] = diagonal
+        A[i,i+1] = 1
+        A[i,i-1] = 1
+    A[N,N-1] = 1; A[N,N] = diagonal; 
+    
+    return A
+
 
 def Matriz_Neumman(N,cons):
     """
@@ -426,6 +494,9 @@ def Sol_Analitica_Cali1(x,N,b,h):
     f=np.pi/2
       
     return ((1-np.cos(f)/np.sin(f))*np.sin(f*x))+b*(np.cos(f*x))
+
+def sol_analitica_cali2(x,N):         
+    return np.exp(x) - x - (np.exp(1)) + 4.
        
 def Sol_Analitica_Neumman(x,Ta,Tb):
     """

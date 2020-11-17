@@ -1,5 +1,5 @@
 --------------------------------------ARCHIVO GENERADO CON LAS SOLUCIONES DE LA ECUACION DE CALOR--------------------------------------
-Longitud de la barra: 1.0
-Temperatura en los extremos: 10.0 y 15.0
-El numero de nodos es: 10
+Longitud de la barra: 1
+Temperatura en los extremos: 0 y 3
+El numero de nodos es: 20
 Los resultados son los siguentes: 

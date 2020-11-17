@@ -1,61 +1,36 @@
 
-import Funciones_2_Tipo_I as fun
+#import Funciones_2_Tipo_I as fun
+import Funciones_Final as Fun
 import numpy as np
 
-
-# Programa principal 
+# Programa principal
 print()
 print("+----------------------------------------------------+")
 print("|      Solucion de la transferencia de calor         |")
 print("+----------------------------------------------------+")
 
+print('Opciones para la ejecución: \n'
+	  '1.- Tomar datos de ejemplo de un archivo \n'
+      '2.- Ingresar los datos manualmente.')
 
-# Datos de entrada
-#a = float(input("Ingrese el comienzo de la barra.                a="))
-#b = float(input("Ingrese el fin de la barra.                     b="))
-#K = float(input("Ingresa la conductividad térmica del material   k="))
-#N = int(input("Ingresa el número de nodos que desea            N="))
-#Ta = float(input("Ingrese la temperaruta al inicio.               Ta="))
-#Tb = float(input("Ingrese la temperaruta al final.                Tb="))
-#s = float(input("Ingrese la fuente o sumidero.                s="))
+sel = int(input('Escoja una opción.\n'))
 
-#----- Parametros de entrada ----
-a=0  #Inicio de la barra
-b=1  #Fin de la barra
-K=1#Conductividad
-N=20
-# Numero de nodos (lugares donde quiero saber la temperatura)
-Ta=0 # Primera condicion de frontera (Temperatura en el primer nodo)
-Tb=3 # Segunda condicion de frontera (Temperatura en el ultimo nodo)
-#----- 
+a,b,N,Ta,Tb,k,S,f = Fun.Ingreso(sel)
 
-# Calculo de constantes necesarias
-h = (b-a)/(N+1)
-r = K/(h**2)
+# Cálculo de Constantes
+h,x,largo = Fun.Constantes(a,b,N)
 x = np.linspace(a,b,N+3)
-largo = b-a
-#g=len(x)
-#print("Tamaño x",x)
-# Impresion de las constantes 
 print("\n-------------------------------------------------")
 print("El ancho de la malla es: ",h)
-print("La constante r es:       ",r)
 print("El largo de la barra es: ",largo)
 print("---------------------------------------------------\n")
 
-
 # ---- Calibración ----- 
+A = Fun.Matriz_Diagonal2(N,-2) #Siatema matricial para ec. de Poisson 1D
+A[0,0]=1; A[0,1]=-1  # Ajuste de la matriz debido a Neumma
+g=len(A)
+l=len(A[0])
 
-# --- Calibración 2 -----
-# Condiciones de Neuman
-# du/dn = 0
-# u(1) = 3
-A2 = fun.creacion_matriz_diagonal2(N,-2) #Siatema matricial para ec. de Poisson 1D
-A2[0,0]=1; A2[0,1]=-1  # Ajuste de la matriz debido a Neumma
-g=len(A2)
-l=len(A2[0])
-print("filas",g)
-print("columnas",l)
 
 
 
@@ -65,35 +40,23 @@ f = h*h*np.exp(x[1:N+2])         # Lado derecho (columana de 1 y 0)
 f[0] += h*Ta   # Neumman
 f[N] -= Tb
 
-print("La matriz del sistem es: ", f)
-u2 = fun.sol_sistema(A2,f,N)
+u = Fun.sol_sistema(A,f,N)
 
 C=len(x)
-print("tamaño de u",C)
-u2[0] = -h*Ta + u2[1]# Condicion de frontera de Neumman
-u2[N+2] = Tb
+u[0] = -h*Ta + u[1]# Condicion de frontera de Neumman
+u[N+2] = Tb
 
-print("La solución del sistema es: ", u2)
+print("La solución del sistema es: ", u)
 
 # Solución análitica
-a2=fun.sol_analitica_cali2(x,N+1)
-
-print("La solución analítica es: ", a2)
+a=Fun.sol_analitica_cali2(x,N+1)
 
 # Error entre la solución numerica y la exacta
-Error1 = np.sqrt(h) * np.linalg.norm(fun.sol_analitica_cali2(x,N) - u2)
+Error1 = np.sqrt(h) * np.linalg.norm(Fun.sol_analitica_cali2(x,N) - u)
 print(" Error calibración 2 = %12.10g " % Error1)
 
+Fun.Graficas(x,u,a)
 
 
-# Llamada de la función para Gráficar
 
-
-grafica1 = fun.grafica_solucion(x,u2,a2,"Calibración 2: Condiciones de Neumman","Solución numérica", "Solución exacta","Solucion_cali2.png" )
-
-# Llamado a la funcion de escritura
-archivo = fun.escritura(largo,Ta,Tb,N)
-
-
-#Calibración 2
 
