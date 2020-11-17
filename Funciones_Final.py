@@ -44,7 +44,8 @@ def Ingreso(sel):
         Tb = val[4]
         k = val[5]
         S = val[6]
-        return a,b,N,Ta,Tb,k,S
+        f = val[7]
+        return a,b,N,Ta,Tb,k,S,f
     else:    
         # Datos de entrada
         a = float(input("Ingrese el comienzo de la barra.                a="))
@@ -54,7 +55,8 @@ def Ingreso(sel):
         Tb = float(input("Ingrese la temperaruta al final.                Tb="))
         k = float(input("Ingrese la conductividad térmica.               k="))
         S = float(input("Ingrese las funetes o sumideros.                S="))
-        return a,b,N,Ta,Tb,k,S
+        f = float(input("Ingrese el valor de f:                          f="))
+        return a,b,N,Ta,Tb,k,S,f
 
 def Constantes(a,b,N):
     """
@@ -110,6 +112,37 @@ def Vector_aux(Ta,Tb,N,q):
     b[-1] = -Tb
     return b + q
 
+def Vector_aux_Neumman(Ta,Tb,N,f,k,a,b):
+    """
+    Esta función genera un vector el cual se utiliza en la resolución del 
+    problema.
+
+    Parameters
+    ----------
+    Ta : float
+        Temperatura en la frontera del inicio.
+    Tb : float
+        Temperatura en la frontera del final.
+    N : Integer
+        Número de nodos.
+    q : float
+        Vector con la información de las fuentes
+    Returns
+    -------
+    b : float
+        Vector con las condiciones a la frontera
+
+    """
+    h = (b-a)/(N+1)
+    x = np.linspace(a,b,N+1)
+    q = np.ones(N+1)*f*(h**2)/k
+    for i in range(N+1):
+        q[i] += np.exp(x[i])
+    b = np.zeros(N+1)
+    b[0] = -Ta
+    b[-1] = -h*Tb
+    return -q+b
+
 def Matriz_Diagonal(N,cons):
     """
     Esta función genera la matriz diagonal necesaria en la resolución del 
@@ -136,6 +169,46 @@ def Matriz_Diagonal(N,cons):
         A[i,i+1] = 1
         A[i,i-1] = 1
     A[N-1,N-2] = 1; A[N-1,N-1] = cons
+    return A
+
+def Matriz_Diagonal1(N,cons,f0,h):
+
+    A = np.zeros((N,N))
+    aux = -cons + ((f0)*(h**2))
+    A[0,0] = aux; A[0,1] =1
+    for i in range(1,N-1):
+        A[i,i] = aux
+        A[i,i+1] =1
+        A[i,i-1] = 1
+    A[N-1,N-2] =1; A[N-1,N-1] =aux
+    return A
+
+def Matriz_Neumman(N,cons):
+    """
+    Esta función genera la matriz diagonal necesaria en la resolución del 
+    problema.    
+
+    Parameters
+    ----------
+    N : Integer
+        Número de nodos.
+    cons : Integer
+        Valor en la diagonal
+
+    Returns
+    -------
+    A : float
+        Matriz diagonal
+
+    """
+    A = np.zeros((N+1,N+1))
+
+    A[0,0] = cons; A[0,1] = 1
+    for i in range(1,N):
+        A[i,i] = cons
+        A[i,i+1] = 1
+        A[i,i-1] = 1
+    A[N,N-1] = 1; A[N,N] = cons
     return A
 
 def Sol_Sitema(A,b,N,Ta,Tb):
@@ -259,6 +332,42 @@ def Sol_Analitica_F(a, b, Ta, Tb, S, k, N):
     for i in range(N+2):
         aux = x[i]
         sol[i] = (m + (S/(2*k))*((b-a)-aux))*aux + Ta        
+    return sol
+
+
+def Sol_Analitica_Cali1(N,f,a,b,Ta,Tb):  
+    
+    x = np.linspace(a,b,N+2)
+    sol = np.zeros(N+2)
+    aux = np.zeros(N)
+    for i in range(1,N+1):
+        aux2 = x[i]
+        aux[i-1] = ((1-np.cos(f))/(np.sin(f)))*np.sin(f*aux2) + np.cos(f*aux2)
+        print(aux[i-1])
+    sol[1:-1] = aux 
+    sol[0] = Ta
+    sol[-1] = Tb
+    return sol
+     
+       
+def Sol_Analitica_Neumman(x,Ta,Tb):
+    """
+    
+
+    Parameters
+    ----------
+    x : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    sol : TYPE
+        DESCRIPTION.
+
+    """
+    sol =  np.exp(x) - x - np.exp(1) + 4
+    sol[0] = Ta
+    sol[-1] = Tb
     return sol
 
 def Error(u,u_exa,N):
