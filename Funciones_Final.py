@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as ps
 plt.style.use('seaborn-darkgrid')
 
-def Ingreso(sel):
+def Ingreso(sel,Titulo):
     """
     Esta función permite seleccionar al usuario la manera 
     en la que se ingresarán los datos
@@ -36,7 +36,7 @@ def Ingreso(sel):
 
     """
     if sel == 1:
-        val= np.loadtxt("Datos_Caso1.txt")
+        val= np.loadtxt(Titulo)
         a = val[0]
         b = val[1]
         N = int(val[2])
@@ -161,16 +161,26 @@ def Vector_aux_Neumman(Ta,Tb,N,f,k,a,b):
         Temperatura en la frontera del inicio.
     Tb : float
         Temperatura en la frontera del final.
-    N : Integer
-        Número de nodos.
-    q : float
-        Vector con la información de las fuentes
+    N : int
+        Numero de Nodos.
+    f : float
+        Vector.
+    k : float
+        Conductividad Térmica.
+    a : float
+        Inicio de barra.
+    b : float
+        Fin de la barra.
+    q: float
+        Fuente.
+
     Returns
     -------
     b : float
         Vector con las condiciones a la frontera
 
     """
+
     h = (b-a)/(N+1)
     x = np.linspace(a,b,N+1)
     q = np.ones(N+1)*f*(h**2)/k
@@ -209,23 +219,28 @@ def Matriz_Diagonal(N,cons):
     A[N-1,N-2] = 1; A[N-1,N-1] = cons
     return A
 
-def Matriz_Diagonal1(N,diagonal,f0,h,r):
+def Matriz_Diagonal1(N,diagonal,f0,h):
+    
     """
+ 
     Esta funcion crea una matriz cuadrada de tamaño N y
-    cambia los valores de la diagonal, ayudando así a la
-    resolución de la ecuación de Poison 1D por condiciones 
-    de Dirichelet (Calibración 1)
+    cambia los valores de la diagonal para la Calibración 1
     
     Parameters
     ----------
     N : Entero (int)
         Número de nodos.
-
+    diagonal : float
+        Valor de la diagonal principal.
+    f0 : float
+        Vector con un valor constante.
+    h : float
+        Delta.
+    
     Returns
     -------
     A : Real(float)
-        Matriz(N,N).
-
+        Matriz(N,N) diferencias finitas.
     """
     A = np.zeros((N,N))
     i=N
@@ -239,15 +254,17 @@ def Matriz_Diagonal1(N,diagonal,f0,h,r):
 
 def Matriz_Diagonal2(N,diagonal):
     """
-    Esta funcion crea una matriz cuadrada de tamaño N y
+    Esta funcion crea una matriz cuadrada de tamaño N+1 y
     cambia los valores de la diagonal, ayudando así a la
     resolución de la ecuación de Poison 1D por condiciones 
-    de Dirichelet (Calibración 1)
+    de Neumman tipo I y IV (Calibración 2)
     
     Parameters
     ----------
     N : Entero (int)
         Número de nodos.
+    diagonal : float
+        Valor que se coloca el la diagonal principal.
 
     Returns
     -------
@@ -267,46 +284,22 @@ def Matriz_Diagonal2(N,diagonal):
     return A
 
 
-def Matriz_Neumman(N,cons):
-    """
-    Esta función genera la matriz diagonal necesaria en la resolución del 
-    problema.    
-
-    Parameters
-    ----------
-    N : Integer
-        Número de nodos.
-    cons : Integer
-        Valor en la diagonal
-
-    Returns
-    -------
-    A : float
-        Matriz diagonal
-
-    """
-    A = np.zeros((N+1,N+1))
-
-    A[0,0] = cons; A[0,1] = 1
-    for i in range(1,N):
-        A[i,i] = cons
-        A[i,i+1] = 1
-        A[i,i-1] = 1
-    A[N,N-1] = 1; A[N,N] = cons
-    return A
 
 def Matriz_Diago3(N,diagonal,h,K):
     """
     Esta funcion crea una matriz cuadrada de tamaño N y
     cambia los valores de la diagonal, ayudando así a la
     resolución de la ecuación de Poison 1D por condiciones 
-    de Dirichelet (Calibración 1)
+    de Dirichelet con una Conductividad Variable (Calibración 3), 
+    realizando el calculo con el promedio aritmedico.
     
     Parameters
     ----------
     N : Entero (int)
         Número de nodos.
-    k : float
+    diaginal : float
+        Valor de la Diagonal pricipal.
+    K : float
         Valor de la conductividad térmica
     h : float
         Distancia entre cada nodo
@@ -371,7 +364,7 @@ def Graficas(x,u,u_exa,Titulo):
 
     Returns
     -------
-    None.
+    Grafica de la solución.
 
     """
     fig, (ax1, ax2) = plt.subplots(1,2)
@@ -425,7 +418,7 @@ def Graficas_Cali3(x,u,u_exa,Título):
 def Sol_Analitica(a,b,Ta,Tb,N):  
     """
     Esta funcion genera un vector que contiene la solución analítica
-    del problema
+    del problema 1
 
     Parameters
     ----------
@@ -437,13 +430,14 @@ def Sol_Analitica(a,b,Ta,Tb,N):
         Vector con el cual se graficará
     N : Integer
         Número de nodos.
-    largo : float
-        Distancia total del dominio
-
+    a : float
+        Inicio de barra.
+    b : float
+        Fin de la barra.
     Returns
     -------
-    a1 : TYPE
-        DESCRIPTION.
+    sol: float
+        Solución análitica.
 
     """
     x = np.linspace(a,b,N+2)
@@ -489,13 +483,48 @@ def Sol_Analitica_Cali1(x,N,b,h):
     """
     Esta función genera la solución analítica para la calibración
     tipo 1.
+      
+    
+
+    Parameters
+    ----------
+    x : float
+        Dominio.
+    N : int
+        Número de nodos.
+    b : float
+        numero real.
+    h : float
+        delta.
+    f : float
+        valor de f en la ecuación.
+    Returns
+    -------
+    Valor de la solución analitica de la calibración 1.
+    
     """
+
 
     f=np.pi/2
       
     return ((1-np.cos(f)/np.sin(f))*np.sin(f*x))+b*(np.cos(f*x))
 
-def sol_analitica_cali2(x,N):         
+def sol_analitica_cali2(x,N):     
+  
+    """    
+
+    Parameters
+    ----------
+    x : float
+        Dominio.
+    N : int
+        Numero de nodos.
+
+    Returns
+    -------
+    Solución analitica de la calibración 2.
+   """
+      
     return np.exp(x) - x - (np.exp(1)) + 4.
        
 def Sol_Analitica_Neumman(x,Ta,Tb):
@@ -558,7 +587,7 @@ def Escritura(u,u_exa):
 
     Returns
     -------
-    None.
+    Archivo.
     """
     
     serie1 = ps.Series(u)

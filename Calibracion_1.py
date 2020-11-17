@@ -13,7 +13,7 @@ print('Opciones para la ejecución: \n'
 
 sel = int(input('Escoja una opción.\n'))
 
-a,b,N,Ta,Tb,k,S,f = fun.Ingreso(sel)
+a,b,N,Ta,Tb,k,S,f0 = fun.Ingreso(sel,"Datos_Calibracion1.txt")
 
 # Cálculo de Constantes
 h,x,lar = fun.Constantes(a,b,N)
@@ -28,7 +28,7 @@ B = fun.Vector_aux(Ta,Tb,N,0)
 # Creación de matriz diagonal
 f0 = np.pi/2
 r = k/(h**2)
-A = fun.Matriz_Diagonal1(N,-2,f0,h,r)
+A = fun.Matriz_Diagonal1(N,-2,f0,h)
 
 # Solucion del sistema
 u = fun.Sol_Sitema(A,B,N,Ta,Tb)

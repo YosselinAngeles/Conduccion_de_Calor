@@ -88,7 +88,7 @@ print('Opciones para la ejecución: \n'
 
 sel = int(input('Escoja una opción.\n'))
 
-a,b,N,Ta,Tb,k,S,f = fun.Ingreso(sel)
+a,b,N,Ta,Tb,k,S,f = fun.Ingreso(sel,"Datos_Calibracion3.txt")
 
 # Cálculo de Constantes
 h,x,lar = fun.Constantes(a,b,N)
@@ -119,14 +119,14 @@ u = fun.Sol_Sitema(A,B,N,Ta,Tb)
 # Solución analítica del problema
 u_exa = fun.Sol_Analitica(a,b,Ta,Tb,N)
 
-error = fun.Error(u,u_exa,N)
+#error = fun.Error(u,u_exa,N)
 
 print("\n--------------------------------------------")
 print("El vector b es: ",B)
 print("La matriz A es: \n",A)
 print("La solución numérica es: \n",u)
 print("La solución analítica es: \n",u_exa)
-print("El error en la solución es: \n",error)
+#print("El error en la solución es: \n",error)
 print("\n--------------------------------------------\n")
 
 # Graficando la solucion
