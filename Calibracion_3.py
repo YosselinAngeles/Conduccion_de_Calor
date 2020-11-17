@@ -5,7 +5,7 @@ Created on Wed Nov 11 22:22:23 2020
 
 @author: yosselin
 """
-
+"""
 import Funciones_3 as fun
 import numpy as np
 
@@ -69,3 +69,69 @@ u1[-1]=Tb
 #Grafica de la solución exacta y analítica 
 grafica0 = fun.grafica_solucion(x,K,"K(x)","Solución numérica", "Conductividad","Solucion_cali3k.png" )
 grafica1 = fun.grafica_solucion(x,u1,"Calibración 3: Conductividad constante","Solución numérica", "Solución Numerica","Solucion_cali3.png" )
+
+"""
+# PROGRAMA PARA LA RESOLUCIÓN DE LA ECUACIÓN DE CALOR SIN FUENTES O SUMIDEROS
+
+import Funciones_Final as fun
+import numpy as np
+
+# Programa principal
+print()
+print("+----------------------------------------------------+")
+print("|      Solucion de la transferencia de calor         |")
+print("+----------------------------------------------------+")
+
+print('Opciones para la ejecución: \n'
+	  '1.- Tomar datos de ejemplo de un archivo \n'
+      '2.- Ingresar los datos manualmente.')
+
+sel = int(input('Escoja una opción.\n'))
+
+a,b,N,Ta,Tb,k,S,f = fun.Ingreso(sel)
+
+# Cálculo de Constantes
+h,x,lar = fun.Constantes(a,b,N)
+print("\n-------------------------------------------------")
+print("El ancho de la malla es: ",h)
+print("El largo de la barra es: ",lar)
+print("---------------------------------------------------\n")
+
+# Vector auxiliar 
+K=[]
+K=np.abs(np.sin(4.*np.pi*(x[0:N+2])))
+
+# Creación de vector b
+#B = fun.Vector_aux(Ta,Tb,N,0)
+
+# Creación de matriz diagonal
+A= fun.Matriz_Diago3(N,-1,h,K)
+
+B = np.zeros(N)   
+
+for i in range(1,N-1):
+    B[0]=(-1*(K[i-1]+K[i])/2.)
+    B[-1] =(-1*(K[i+1]+K[i])/2.)
+
+# Solucion del sistema
+u = fun.Sol_Sitema(A,B,N,Ta,Tb)
+
+# Solución analítica del problema
+u_exa = fun.Sol_Analitica(a,b,Ta,Tb,N)
+
+error = fun.Error(u,u_exa,N)
+
+print("\n--------------------------------------------")
+print("El vector b es: ",B)
+print("La matriz A es: \n",A)
+print("La solución numérica es: \n",u)
+print("La solución analítica es: \n",u_exa)
+print("El error en la solución es: \n",error)
+print("\n--------------------------------------------\n")
+
+# Graficando la solucion
+fun.Graficas_Cali3(x,K,u)
+
+# Guardando los datos
+fun.Escritura(u,u_exa)
+

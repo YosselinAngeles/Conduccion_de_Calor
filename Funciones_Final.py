@@ -227,6 +227,39 @@ def Matriz_Neumman(N,cons):
     A[N,N-1] = 1; A[N,N] = cons
     return A
 
+def Matriz_Diago3(N,diagonal,h,K):
+    """
+    Esta funcion crea una matriz cuadrada de tamaño N y
+    cambia los valores de la diagonal, ayudando así a la
+    resolución de la ecuación de Poison 1D por condiciones 
+    de Dirichelet (Calibración 1)
+    
+    Parameters
+    ----------
+    N : Entero (int)
+        Número de nodos.
+    k : float
+        Valor de la conductividad térmica
+    h : float
+        Distancia entre cada nodo
+
+    Returns
+    -------
+    A : Real(float)
+        Matriz(N,N).
+
+    """
+    A=np.zeros((N,N),dtype=np.float64)
+    
+    i=2
+    A[0,0] =(diagonal*(((K[i+1]+K[i])/2.+(K[i-1]+K[i])/2.))); A[0,1] = (1.*((K[i+1])+K[i])/2.)
+    for i in range(1,N-1):
+        A[i,i] = (diagonal*(((K[i+1]+K[i])/2.+(K[i-1]+K[i])/2.)))
+        A[i,i+1] = (1.*(K[i+1]+K[i])/2.)
+        A[i,i-1] = (1.*(K[i-1]+K[i])/2.)
+    A[N-1,N-2] = (1.*(K[i-1]+K[i])/2.); A[N-1,N-1] = (diagonal*(((K[i+1]+K[i])/2.+(K[i-1]+K[i])/2.)))
+    
+    return A
 def Sol_Sitema(A,b,N,Ta,Tb):
     """
     Esta función resuelve el sistema matricial para el problema
@@ -285,6 +318,39 @@ def Graficas(x,u,u_exa):
     ax2.grid()
     ax2.set_title('Solución analítica')
     ax2.set(xlabel = 'Dominio [m]', ylabel = 'Temperatura [C]')
+    ax2.legend()
+    plt.show()
+    
+def Graficas_Cali3(x,u,u_exa):
+    """
+    Esta función genera las gráficas de la solución analítica y numérica
+
+    Parameters
+    ----------
+    x : float
+        Vector con el cual se graficará
+    u : float
+        Vector que contiene la solución numérica del problema
+    u_exa : float
+        Vector que contiene la solución analítica del problema
+
+    Returns
+    -------
+    None.
+
+    """
+    fig, (ax1, ax2) = plt.subplots(1,2)
+    fig.suptitle('SOLUCIONES DEL PROBLEMA')
+    ax1.plot(x, u, '-bo', label = 'Conductividad')
+    ax1.set_title('Conductividad Térmica')
+    ax1.set(xlabel = 'Dominio [m]', ylabel = 'C.T.[k]')
+    ax1.grid()
+    ax1.legend()
+    
+    ax2.plot(x, u_exa, '-ro', label = 'Solución numérica')
+    ax2.grid()
+    ax2.set_title('Conductividad Constante')
+    ax2.set(xlabel = 'Dominio [m]', ylabel = 'C.T.[k]')
     ax2.legend()
     plt.show()
     
