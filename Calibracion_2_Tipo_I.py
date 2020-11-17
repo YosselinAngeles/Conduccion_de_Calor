@@ -55,7 +55,7 @@ a=Fun.sol_analitica_cali2(x,N+1)
 Error1 = np.sqrt(h) * np.linalg.norm(Fun.sol_analitica_cali2(x,N) - u)
 print(" Error calibración 2 = %12.10g " % Error1)
 
-Fun.Graficas(x,u,a)
+Fun.Graficas(x,u,a,'ECUACIÓN DE CALOR. CALIBRACIÓN 2 TIPO I')
 
 
 

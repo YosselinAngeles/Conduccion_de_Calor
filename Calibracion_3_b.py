@@ -131,7 +131,7 @@ print("El error en la solución es: \n",error)
 print("\n--------------------------------------------\n")
 
 # Graficando la solucion
-fun.Graficas_Cali3(x,K,u)
+fun.Graficas_Cali3(x,K,u,'ECUACIÓN DE CALOR. CALIBRACIÓN 3B')
 
 # Guardando los datos
 fun.Escritura(u,u_exa)

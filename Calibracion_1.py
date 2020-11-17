@@ -48,7 +48,7 @@ print("El error en la solución es: \n",error)
 print("\n--------------------------------------------\n")
 
 # Graficando la solucion
-fun.Graficas(x,u,u_exa)
+fun.Graficas(x,u,u_exa,'ECUACIÓN DE CALOR. CALIBRACIÓN 1')
 
 # Guardando los datos
 fun.Escritura(u,u_exa)

@@ -4,7 +4,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as ps
-plt.style.use('seaborn-dark')
+plt.style.use('seaborn-darkgrid')
 
 def Ingreso(sel):
     """
@@ -356,7 +356,7 @@ def Sol_Sitema(A,b,N,Ta,Tb):
     u[-1] = Tb
     return u
 
-def Graficas(x,u,u_exa):
+def Graficas(x,u,u_exa,Titulo):
     """
     Esta función genera las gráficas de la solución analítica y numérica
 
@@ -375,7 +375,7 @@ def Graficas(x,u,u_exa):
 
     """
     fig, (ax1, ax2) = plt.subplots(1,2)
-    fig.suptitle('SOLUCIONES DEL PROBLEMA')
+    fig.suptitle(Titulo)
     ax1.plot(x, u, '-bo', label = 'Solución')
     ax1.set_title('Solución numérica')
     ax1.set(xlabel = 'Dominio [m]', ylabel = 'Temperatura [C]')
@@ -389,7 +389,7 @@ def Graficas(x,u,u_exa):
     ax2.legend()
     plt.show()
     
-def Graficas_Cali3(x,u,u_exa):
+def Graficas_Cali3(x,u,u_exa,Título):
     """
     Esta función genera las gráficas de la solución analítica y numérica
 
@@ -408,7 +408,7 @@ def Graficas_Cali3(x,u,u_exa):
 
     """
     fig, (ax1, ax2) = plt.subplots(1,2)
-    fig.suptitle('SOLUCIONES DEL PROBLEMA')
+    fig.suptitle(Título)
     ax1.plot(x, u, '-bo', label = 'Conductividad')
     ax1.set_title('Conductividad Térmica')
     ax1.set(xlabel = 'Dominio [m]', ylabel = 'C.T.[k]')

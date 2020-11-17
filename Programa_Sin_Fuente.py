@@ -14,7 +14,7 @@ print('Opciones para la ejecución: \n'
 
 sel = int(input('Escoja una opción.\n'))
 
-a,b,N,Ta,Tb,k,S = fun.Ingreso(sel)
+a,b,N,Ta,Tb,k,S,f = fun.Ingreso(sel)
 
 # Cálculo de Constantes
 h,x,lar = fun.Constantes(a,b,N)
@@ -46,7 +46,7 @@ print("El error en la solución es: \n",error)
 print("\n--------------------------------------------\n")
 
 # Graficando la solucion
-fun.Graficas(x,u,u_exa)
+fun.Graficas(x,u,u_exa,'ECUACIÓN DE CALOR SIN FUENTES')
 
 # Guardando los datos
 fun.Escritura(u,u_exa)
