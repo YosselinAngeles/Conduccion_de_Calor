@@ -1,4 +1,5 @@
-import Funciones_2_Tipo_IV as fun
+#import Funciones_2_Tipo_IV as fun
+import Funciones_Final as Fun
 import numpy as np
 import Funciones_Final as Fun
 
@@ -14,7 +15,7 @@ print('Opciones para la ejecución: \n'
 
 sel = int(input('Escoja una opción.\n'))
 
-a,b,N,Ta,Tb,k,S,f = Fun.Ingreso(sel,"Datos_Calibracion2.txt")
+a,b,N,Ta,Tb,k,S = Fun.Ingreso(sel,"Datos_Calibracion2.txt")
 
 # Cálculo de Constantes
 h,x,largo = Fun.Constantes(a,b,N)
