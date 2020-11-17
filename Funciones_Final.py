@@ -44,8 +44,8 @@ def Ingreso(sel,Titulo):
         Tb = val[4]
         k = val[5]
         S = val[6]
-        f = val[7]
-        return a,b,N,Ta,Tb,k,S,f
+       
+        return a,b,N,Ta,Tb,k,S
     else:    
         # Datos de entrada
         a = float(input("Ingrese el comienzo de la barra.                a="))
@@ -55,8 +55,8 @@ def Ingreso(sel,Titulo):
         Tb = float(input("Ingrese la temperaruta al final.                Tb="))
         k = float(input("Ingrese la conductividad térmica.               k="))
         S = float(input("Ingrese las funetes o sumideros.                S="))
-        f = float(input("Ingrese el valor de f:                          f="))
-        return a,b,N,Ta,Tb,k,S,f
+        
+        return a,b,N,Ta,Tb,k,S
 
 def Constantes(a,b,N):
     """
