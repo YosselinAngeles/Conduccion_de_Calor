@@ -26,7 +26,7 @@ print("---------------------------------------------------\n")
 B = fun.Vector_aux(Ta,Tb,N,0)
 
 # Creación de matriz diagonal
-f0 = np.pi/2
+f0 = 3*np.pi/2
 r = k/(h**2)
 A = fun.Matriz_Diagonal1(N,-2,f0,h)
 
